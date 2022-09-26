@@ -1,11 +1,14 @@
 package com.mdix.fhir.facade.servlet;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 import org.springframework.web.cors.CorsConfiguration;
 
-import com.mdix.fhir.facade.provider.OrganizationResourceProvider;
-import com.mdix.fhir.facade.provider.PatientResourceProvider;
+import com.mdix.fhir.facade.provider.HSDSHealthcareServiceResourceProvider;
+import com.mdix.fhir.facade.provider.HSDSLocationResourceProvider;
+import com.mdix.fhir.facade.provider.HSDSOrganizationResourceProvider;
 
 import ca.uhn.fhir.context.FhirContext;
 import ca.uhn.fhir.narrative.DefaultThymeleafNarrativeGenerator;
@@ -26,7 +29,7 @@ public class FhirFacade extends RestfulServer {
 	 * Constructor
 	 */
 	public FhirFacade() {
-		super(FhirContext.forDstu2()); // Support DSTU2
+		super(FhirContext.forR4()); // Support DSTU2
 	}
 	
 	/**
@@ -40,8 +43,10 @@ public class FhirFacade extends RestfulServer {
 		 * type of resource.
 		 */
 		List<IResourceProvider> providers = new ArrayList<>();
-		providers.add(new PatientResourceProvider());
-		providers.add(new OrganizationResourceProvider());
+	 
+		providers.add(new HSDSHealthcareServiceResourceProvider());
+		providers.add(new HSDSLocationResourceProvider());
+		providers.add(new HSDSOrganizationResourceProvider());
 		setResourceProviders(providers);
 		
 		/*

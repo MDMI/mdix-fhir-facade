@@ -1,28 +1,58 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
-	<!-- 
-	HAPI projects use the HAPI-FHIR base POM as their base. You don't need this
-	for your own projects. One thing to note though:  
-	-->
-	<!-- <parent>
-		<groupId>ca.uhn.hapi.fhir</groupId>
-		<artifactId>hapi-fhir</artifactId>
-		<version>5.6.0-PRE1-SNAPSHOT</version>
-	</parent> -->
-	
+	<!-- HAPI projects use the HAPI-FHIR base POM as their base. You don't need 
+		this for your own projects. One thing to note though: -->
+	<!-- <parent> <groupId>ca.uhn.hapi.fhir</groupId> <artifactId>hapi-fhir</artifactId> 
+		<version>5.6.0-PRE1-SNAPSHOT</version> </parent> -->
+
 	<groupId>mdix</groupId>
 	<artifactId>mdix-fhir-facade</artifactId>
 	<version>0.8.0-SNAPSHOT</version>
-	<!-- <packaging>war</packaging> -->
-	
+
+
+	<parent>
+		<groupId>org.springframework.boot</groupId>
+		<artifactId>spring-boot-starter-parent</artifactId>
+		<version>2.2.2.RELEASE</version>
+	</parent>
+
+
+
 	<properties>
-	<parent.version>6.1.1</parent.version>
+		<hapi.fhir.version>6.1.1</hapi.fhir.version>
+		<mdmi.runtime.version>2.6.0-SNAPSHOT</mdmi.runtime.version>
 	</properties>
+
+
+
 
 	<name>HAPI FHIR Sample RESTful Server</name>
 
 	<repositories>
+
+
+		<repository>
+			<id>spring-snapshots</id>
+			<name>Spring Snapshots</name>
+			<url>https://repo.spring.io/snapshot</url>
+			<snapshots>
+				<enabled>true</enabled>
+			</snapshots>
+		</repository>
+
+		<repository>
+			<id>spring-milestones</id>
+			<name>Spring Milestones</name>
+			<url>https://repo.spring.io/milestone</url>
+			<snapshots>
+				<enabled>false</enabled>
+			</snapshots>
+		</repository>
+
+
 		<repository>
 			<id>oss-snapshots</id>
 			<snapshots>
@@ -30,106 +60,148 @@
 			</snapshots>
 			<url>https://oss.sonatype.org/content/repositories/snapshots/</url>
 		</repository>
+
+		<repository>
+			<id>2021-09</id>
+			<layout>p2</layout>
+			<url>http://download.eclipse.org/releases/2021-09</url>
+		</repository>
+		<repository>
+			<id>R20201130205003</id>
+			<layout>p2</layout>
+			<url>https://download.eclipse.org/tools/orbit/downloads/drops/R20210825222808/repository</url>
+		</repository>
+
+
+		<repository>
+			<id>mdixsnaphpt</id>
+			<name>7ed03140605b-snapshots</name>
+			<url>http://artifactory.mdixinc.net:8082/artifactory/mdmiartifactory/libs-release</url>
+			<snapshots>
+				<enabled>true</enabled>
+			</snapshots>
+		</repository>
+
+		<repository>
+			<id>mdixlibs</id>
+			<name>7ed03140605b-releases</name>
+			<url>http://artifactory.mdixinc.net:8081/artifactory/mdmiartifactory/libs-snapshot</url>
+			<snapshots>
+				<enabled>true</enabled>
+			</snapshots>
+		</repository>
+
 	</repositories>
 
 	<dependencies>
+
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-web</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-thymeleaf</artifactId>
+		</dependency>
 
 		<!-- This dependency includes the core HAPI-FHIR classes -->
 		<dependency>
 			<groupId>ca.uhn.hapi.fhir</groupId>
 			<artifactId>hapi-fhir-base</artifactId>
-			<version>${parent.version}</version>
+			<version>${hapi.fhir.version}</version>
 		</dependency>
-		
+
 		<!-- Include the HAPI server framework -->
 		<dependency>
 			<groupId>ca.uhn.hapi.fhir</groupId>
 			<artifactId>hapi-fhir-server</artifactId>
-			<version>${parent.version}</version>
+			<version>${hapi.fhir.version}</version>
 		</dependency>
 
 		<!-- At least one "structures" JAR must also be included -->
 		<dependency>
 			<groupId>ca.uhn.hapi.fhir</groupId>
 			<artifactId>hapi-fhir-structures-dstu2</artifactId>
-			<version>${parent.version}</version>
+			<version>${hapi.fhir.version}</version>
 		</dependency>
 
 		<!-- This dependency is used for the "FHIR Tester" web app overlay -->
 		<dependency>
 			<groupId>ca.uhn.hapi.fhir</groupId>
 			<artifactId>hapi-fhir-testpage-overlay</artifactId>
-			<version>${parent.version}</version>
+			<version>${hapi.fhir.version}</version>
 			<type>war</type>
-			<scope>provided</scope>		
+			<scope>provided</scope>
 		</dependency>
 		<dependency>
 			<groupId>ca.uhn.hapi.fhir</groupId>
 			<artifactId>hapi-fhir-testpage-overlay</artifactId>
-			<version>${parent.version}</version>
+			<version>${hapi.fhir.version}</version>
 			<classifier>classes</classifier>
-			<scope>provided</scope>		
+			<scope>provided</scope>
 		</dependency>
 
-		<!-- 
-		HAPI-FHIR uses Logback for logging support. The logback library is included 
-		automatically by Maven as a part of the hapi-fhir-base dependency, but you 
-		also need to include a logging library. Logback is used here, but log4j
-		would also be fine.
-		
-		Note on Dependency Versions: This POM file inherits 
-		versions (<version>1.0</version>) in each dependency and plugin
-		from the parent pom.xml file. If you want to use this POM as the basis
-		for your own project, you'll need to manually add versions to the
-		dependencies below. 
-		-->
+		<!-- HAPI-FHIR uses Logback for logging support. The logback library is 
+			included automatically by Maven as a part of the hapi-fhir-base dependency, 
+			but you also need to include a logging library. Logback is used here, but 
+			log4j would also be fine. Note on Dependency Versions: This POM file inherits 
+			versions (<version>1.0</version>) in each dependency and plugin from the 
+			parent pom.xml file. If you want to use this POM as the basis for your own 
+			project, you'll need to manually add versions to the dependencies below. -->
 		<dependency>
 			<groupId>ch.qos.logback</groupId>
 			<artifactId>logback-classic</artifactId>
-			 <version>1.2.3</version>
+
 		</dependency>
 
 		<!-- Needed for JEE/Servlet support -->
 		<dependency>
 			<groupId>javax.servlet</groupId>
 			<artifactId>javax.servlet-api</artifactId>
-			 <version>3.1.0</version>
+
 			<scope>provided</scope>
 		</dependency>
 
-		<!-- 
-		If you are using HAPI narrative generation, you will need to include Thymeleaf
-		as well. Otherwise the following can be omitted.
-		 -->
+		<!-- If you are using HAPI narrative generation, you will need to include 
+			Thymeleaf as well. Otherwise the following can be omitted. -->
 		<dependency>
 			<groupId>org.thymeleaf</groupId>
 			<artifactId>thymeleaf</artifactId>
-			<version>3.0.12.RELEASE</version>
+
 		</dependency>
 
 		<!-- Used for CORS support -->
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-web</artifactId>
-			 <version>5.3.7</version>
+
 		</dependency>
-		
+
+		<!-- MDMI -->
+
+		<dependency>
+			<groupId>org.mdmi</groupId>
+			<artifactId>org.mdmi.ecore</artifactId>
+			<version>${mdmi.runtime.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.mdmi</groupId>
+			<artifactId>org.mdmi.core.runtime</artifactId>
+			<version>${mdmi.runtime.version}</version>
+		</dependency>
+
 
 	</dependencies>
 
 	<build>
-		
-		<!-- 
-		Tells Maven to name the generated WAR file as
-		restful-server-example.war
-		-->
+
+		<!-- Tells Maven to name the generated WAR file as restful-server-example.war -->
 		<finalName>restful-server-example</finalName>
-		
-		<!-- 
-		The following is not required for the application to build, but
-		allows you to test it by issuing "mvn jetty:run" from the command
-		line. 
-		-->
+
+		<!-- The following is not required for the application to build, but allows 
+			you to test it by issuing "mvn jetty:run" from the command line. -->
 		<pluginManagement>
 			<plugins>
 				<plugin>
@@ -138,24 +210,20 @@
 				</plugin>
 			</plugins>
 		</pluginManagement>
-	
+
 		<plugins>
-			<!-- 
-			Tell Maven which Java source version you want to use
-			-->
+			<!-- Tell Maven which Java source version you want to use -->
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-compiler-plugin</artifactId>
 				<configuration>
-					<source>1.7</source>
-					<target>1.7</target>
+					<source>11</source>
+					<target>11</target>
 				</configuration>
 			</plugin>
-			
-			<!-- 
-			The configuration here tells the WAR plugin to include the FHIR Tester
-			overlay. You can omit it if you are not using that feature.
-			-->
+
+			<!-- The configuration here tells the WAR plugin to include the FHIR Tester 
+				overlay. You can omit it if you are not using that feature. -->
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-war-plugin</artifactId>
@@ -168,11 +236,9 @@
 					</overlays>
 				</configuration>
 			</plugin>
-			
-			<!-- 
-			This plugin is just a part of the HAPI internal build process, you do not
-			need to incude it in your own projects
-			-->
+
+			<!-- This plugin is just a part of the HAPI internal build process, you 
+				do not need to incude it in your own projects -->
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-deploy-plugin</artifactId>
@@ -180,7 +246,7 @@
 					<skip>false</skip>
 				</configuration>
 			</plugin>
-    		
+
 		</plugins>
 	</build>
 

@@ -1,57 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?><project-modules id="moduleCoreId" project-version="1.5.0">
-                
+            
     
-    
-    <wb-module deploy-name="mdix-fhir-facade">
-                                
-        
-        
-        <wb-resource deploy-path="/" source-path="/target/m2e-wtp/web-resources"/>
-                                
-        
-        
-        <wb-resource deploy-path="/" source-path="/src/main/webapp" tag="defaultRootSource"/>
-                                
-        
-        
-        <wb-resource deploy-path="/WEB-INF/classes" source-path="/src/main/java"/>
-        <wb-resource deploy-path="/WEB-INF/classes" source-path="/src/test/java"/>
-                                
-        
-        
-        <dependent-module deploy-path="/" handle="module:/overlay/var/M2_REPO/ca/uhn/hapi/fhir/hapi-fhir-testpage-overlay/5.6.0-PRE1-SNAPSHOT/hapi-fhir-testpage-overlay-5.6.0-PRE1-SNAPSHOT.war?unpackFolder=target/m2e-wtp/overlays&amp;includes=**/**&amp;excludes=META-INF/MANIFEST.MF">
-                                                
-            
-            
-            <dependency-type>consumes</dependency-type>
-                                            
-        
-        
-        </dependent-module>
-                                
-        
-        
-        <dependent-module deploy-path="/" handle="module:/overlay/slf/?includes=**/**&amp;excludes=META-INF/MANIFEST.MF">
-                                                
-            
-            
-            <dependency-type>consumes</dependency-type>
-                                            
-        
-        
-        </dependent-module>
-                                
-        
-        
-        <property name="java-output-path" value="/mdix-fhir-facade/target/classes"/>
+    <wb-module deploy-name="org.mdmi.transformation.service">
                         
         
-        <property name="context-root" value="mdix-fhir-facade"/>
-                            
-    
+        <wb-resource deploy-path="/" source-path="/target/org.mdmi.rt.service-0.9.9/WEB-INF"/>
+                        
+        
+        <wb-resource deploy-path="/" source-path="/target/classes"/>
+                        
+        
+        <property name="java-output-path" value="/org.mdmi.transformation.service/build/classes"/>
+                        
+        
+        <property name="context-root" value="org.mdmi.transformation.service"/>
+                    
     
     </wb-module>
-            
-
+        
 
 </project-modules>

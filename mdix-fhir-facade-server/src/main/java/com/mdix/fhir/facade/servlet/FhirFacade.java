@@ -21,6 +21,7 @@ import ca.uhn.fhir.rest.server.interceptor.ResponseHighlighterInterceptor;
 /**
  * This servlet is the actual FHIR server itself
  */
+
 public class FhirFacade extends RestfulServer {
 
 	private static final long serialVersionUID = 1L;
@@ -31,7 +32,7 @@ public class FhirFacade extends RestfulServer {
 	public FhirFacade() {
 		super(FhirContext.forR4()); // Support DSTU2
 	}
-	
+
 	/**
 	 * This method is called automatically when the
 	 * servlet is initializing.
@@ -43,14 +44,14 @@ public class FhirFacade extends RestfulServer {
 		 * type of resource.
 		 */
 		List<IResourceProvider> providers = new ArrayList<>();
-	 
+
 		providers.add(new HSDSHealthcareServiceResourceProvider());
 		providers.add(new HSDSLocationResourceProvider());
 		providers.add(new HSDSOrganizationResourceProvider());
 		setResourceProviders(providers);
-		
+
 		/*
-		 * Use a narrative generator. This is a completely optional step, 
+		 * Use a narrative generator. This is a completely optional step,
 		 * but can be useful as it causes HAPI to generate narratives for
 		 * resources which don't otherwise have one.
 		 */
@@ -67,7 +68,7 @@ public class FhirFacade extends RestfulServer {
 		config.addAllowedOrigin("*");
 		config.addExposedHeader("Location");
 		config.addExposedHeader("Content-Location");
-		config.setAllowedMethods(Arrays.asList("GET","POST","PUT","DELETE","OPTIONS"));
+		config.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS"));
 		registerInterceptor(corsInterceptor);
 
 		/*
@@ -77,12 +78,12 @@ public class FhirFacade extends RestfulServer {
 		 * but can be nice for testing.
 		 */
 		registerInterceptor(new ResponseHighlighterInterceptor());
-		
+
 		/*
 		 * Tells the server to return pretty-printed responses by default
 		 */
 		setDefaultPrettyPrint(true);
-		
+
 	}
 
 }

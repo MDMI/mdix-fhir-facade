@@ -148,7 +148,7 @@ public class FHIRR4PostProcessorJson implements IPostProcessor {
 			// Bundle dedupBundle = deduplicate(bundle);
 			// mdmiMessage.setData(ctx.newJsonParser().setPrettyPrint(true).encodeResourceToString(dedupBundle));
 
-			HashMap<String, String> referenceMappings = new HashMap<String, String>();
+			HashMap<String, String> referenceMappings = new HashMap<>();
 			Bundle bundle = parse.parseResource(Bundle.class, mdmiMessage.getDataAsString());
 			Bundle dedupBundle = deduplicate(bundle);
 			for (BundleEntryComponent bundleEntry : dedupBundle.getEntry()) {
@@ -172,7 +172,7 @@ public class FHIRR4PostProcessorJson implements IPostProcessor {
 				referenceMappings.put(ide, newid);
 				bundleEntry.getRequest().setUrl(resName);
 				HTTPVerb post = null;
-				bundleEntry.getRequest().setMethod(post.POST);
+				bundleEntry.getRequest().setMethod(HTTPVerb.POST);
 			}
 
 			String result = ctx.newJsonParser().setPrettyPrint(true).encodeResourceToString(dedupBundle);
@@ -226,7 +226,7 @@ public class FHIRR4PostProcessorJson implements IPostProcessor {
 	}
 
 	private Bundle deduplicate(Bundle bundle) {
-		HashMap<String, String> map = new HashMap<String, String>();
+		HashMap<String, String> map = new HashMap<>();
 		ArrayList<BundleEntryComponent> removelist = new ArrayList<>();
 		for (BundleEntryComponent bundleEntry : bundle.getEntry()) {
 

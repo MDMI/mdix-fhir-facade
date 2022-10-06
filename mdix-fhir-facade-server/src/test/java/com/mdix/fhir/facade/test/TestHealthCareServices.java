@@ -41,7 +41,7 @@ class TestHealthCareServices {
 		// We'll populate this list
 		List<IBaseResource> healthcareServices = new ArrayList<>();
 
-		Include xxx = new Include("*");
+		new Include("*");
 		// We'll do a search for all Patients and extract the first page
 		Bundle bundle = client.search().forResource(HealthcareService.class).returnBundle(Bundle.class).execute();
 		healthcareServices.addAll(BundleUtil.toListOfResources(ctx, bundle));

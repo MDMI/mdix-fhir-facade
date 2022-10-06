@@ -17,6 +17,8 @@ import org.springframework.test.context.junit4.SpringRunner;
 import com.mdix.fhir.facade.Application;
 
 import ca.uhn.fhir.context.FhirContext;
+import ca.uhn.fhir.model.api.Include;
+import ca.uhn.fhir.parser.IParser;
 import ca.uhn.fhir.rest.client.api.IGenericClient;
 import ca.uhn.fhir.util.BundleUtil;
 
@@ -39,11 +41,17 @@ class TestHealthCareServices {
 		// We'll populate this list
 		List<IBaseResource> healthcareServices = new ArrayList<>();
 
+		Include xxx = new Include("*");
 		// We'll do a search for all Patients and extract the first page
 		Bundle bundle = client.search().forResource(HealthcareService.class).returnBundle(Bundle.class).execute();
 		healthcareServices.addAll(BundleUtil.toListOfResources(ctx, bundle));
+		// Create a FHIR context
+		// FhirContext ctx = FhirContext.forR4();
+
+		// Instantiate a new parser
+		IParser parser = ctx.newJsonParser();
 		for (IBaseResource resoure : healthcareServices) {
-			System.out.println(resoure);
+			System.out.println(parser.setPrettyPrint(true).encodeResourceToString(resoure));
 		}
 
 	}

@@ -4,6 +4,9 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import javax.servlet.ServletContext;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.cors.CorsConfiguration;
 
 import com.mdix.fhir.facade.provider.HSDSHealthcareServiceResourceProvider;
@@ -26,6 +29,9 @@ public class FhirFacade extends RestfulServer {
 
 	private static final long serialVersionUID = 1L;
 
+	@Autowired
+	ServletContext context;
+
 	/**
 	 * Constructor
 	 */
@@ -45,7 +51,7 @@ public class FhirFacade extends RestfulServer {
 		 */
 		List<IResourceProvider> providers = new ArrayList<>();
 
-		providers.add(new HSDSHealthcareServiceResourceProvider());
+		providers.add(new HSDSHealthcareServiceResourceProvider(context));
 		providers.add(new HSDSLocationResourceProvider());
 		providers.add(new HSDSOrganizationResourceProvider());
 		setResourceProviders(providers);

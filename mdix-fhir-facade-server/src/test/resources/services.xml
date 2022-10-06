@@ -1,0 +1,387 @@
+<root>
+	<Services>
+		<source_id_programAtSite />
+		<fees>No fees</fees>
+		<accreditations />
+		<city>Saint Joseph</city>
+		<address_1>4938 Niles Road</address_1>
+		<program_id />
+		<county>Berrien</county>
+		<description>Provides forensic interviews for sexually abused
+			children, counseling services for sexually abused children, including
+			adults survivors of child sexual abuse, and prevention education.
+		</description>
+		<eligibility>Children and families of suspected child abuse in
+			Southwest Michigan</eligibility>
+		<language>Interpretation services available</language>
+		<source>icarol</source>
+		<program>CHILDREN&apos;S ADVOCACY CENTER</program>
+		<location_id>970</location_id>
+		<application_process>Referral required from Child Protective Services
+			or Law Enforcement for forensic interviewing services. Therapy
+			services available to children and adult survivors of child sexual
+			abuse.</application_process>
+		<required_document>Referral information</required_document>
+		<area_served_description>Berrien, Cass and Van Buren Counties
+		</area_served_description>
+		<id>1</id>
+		<email>info@swmichigancac.org</email>
+		<source_service_id>1106</source_service_id>
+		<alternate_name>CHILDREN&apos;S ADVOCACY CENTER</alternate_name>
+		<wait_time />
+		<payment_accepted>Not applicable</payment_accepted>
+		<interpretation_services />
+		<organization_name>CHILDREN&apos;S ADVOCACY CENTER OF SOUTHWEST
+			MICHIGAN</organization_name>
+		<url>www.swmichigancac.org</url>
+		<licenses />
+		<location_name>CHILDREN&apos;S ADVOCACY CENTER OF SOUTHWEST MICHIGAN
+		</location_name>
+		<source_id_program>78143321</source_id_program>
+		<organization_id>969</organization_id>
+		<name>COUNSELING SERVICES AND PREVENTION FOR CHILDREN WHO ARE ABUSED
+		</name>
+		<service_area>Berrien, Cass and Van Buren Counties</service_area>
+		<region>GRYP</region>
+		<postal_code>49085</postal_code>
+		<status>1</status>
+	</Services>
+	<Services>
+		<source_id_programAtSite />
+		<fees>Donation accepted (sp)</fees>
+		<accreditations />
+		<city>East Grand Rapids</city>
+		<address_1>111 Golf Lane</address_1>
+		<program_id />
+		<county>Kent</county>
+		<description>Good will hunting is top 10 all time (sp)</description>
+		<eligibility>No restrictions (sp)</eligibility>
+		<language>English, Spanish</language>
+		<source>Test Data</source>
+		<program>Best Apple Smack Talk</program>
+		<location_id>976</location_id>
+		<application_process>Referral in apples (sp)</application_process>
+		<required_document>No documentation required</required_document>
+		<area_served_description>Various locations</area_served_description>
+		<id>2</id>
+		<email>dem@apples.sp</email>
+		<source_service_id>1111</source_service_id>
+		<alternate_name>How you like them apples (sp)</alternate_name>
+		<wait_time />
+		<payment_accepted>Not applicable</payment_accepted>
+		<interpretation_services />
+		<organization_name>TEST Organization Apples</organization_name>
+		<url>www.freeapples.sp</url>
+		<licenses />
+		<location_name>TEST Location Apples</location_name>
+		<source_id_program />
+		<organization_id>975</organization_id>
+		<name>You like apples? (sp)</name>
+		<service_area>Various locations</service_area>
+		<region>MICH</region>
+		<postal_code>49511</postal_code>
+		<status>1</status>
+	</Services>
+	<Services>
+		<source_id_programAtSite />
+		<fees>Donation accepted</fees>
+		<accreditations />
+		<city>Coloma</city>
+		<address_1>6648 Ryno Road</address_1>
+		<program_id />
+		<county>Berrien</county>
+		<description>Serves as a Congregate meal site and home delivered meals
+			for seniors.</description>
+		<eligibility>Must be a resident of the service area, adults age 60 and
+			older.</eligibility>
+		<language />
+		<source>icarol</source>
+		<program>CONGREGATE MEAL SITE</program>
+		<location_id>972</location_id>
+		<application_process>Call for availability</application_process>
+		<required_document>No documentation required</required_document>
+		<area_served_description>Residents of the cities of Coloma and
+			Watervliet and residents of the townships of Coloma, Bainbridge,
+			Hagar and Watervliet.</area_served_description>
+		<id>4</id>
+		<email />
+		<source_service_id>1107</source_service_id>
+		<alternate_name>CONGREGATE MEAL SITE</alternate_name>
+		<wait_time />
+		<payment_accepted>Cash or personal check</payment_accepted>
+		<interpretation_services />
+		<organization_name>NORTH BERRIEN SENIOR CENTER</organization_name>
+		<url>www.northberrienseniorcenter.org/services.htm</url>
+		<licenses />
+		<location_name>NORTH BERRIEN SENIOR CENTER</location_name>
+		<source_id_program>78143322</source_id_program>
+		<organization_id>971</organization_id>
+		<name>CONGREGATE MEALS/NUTRTION SITES AND HOME DELIVERED MEALS</name>
+		<service_area>Residents of the cities of Coloma and Watervliet and
+			residents of the townships of Coloma, Bainbridge, Hagar and
+			Watervliet.</service_area>
+		<region>GRYP</region>
+		<postal_code>49038</postal_code>
+		<status>1</status>
+	</Services>
+	<Services>
+		<source_id_programAtSite />
+		<fees>fees (pas)</fees>
+		<accreditations />
+		<city>East Grand Rapids</city>
+		<address_1>111 Golf Lane</address_1>
+		<program_id />
+		<county>Kent</county>
+		<description>apples (pas)</description>
+		<eligibility>eligibility (pas)</eligibility>
+		<language>language (pas)</language>
+		<source>Test Data</source>
+		<program>Best Apple Smack Talk</program>
+		<location_id>976</location_id>
+		<application_process>application process (pas)</application_process>
+		<required_document>required doc (pas)</required_document>
+		<area_served_description>service area description (pas)
+		</area_served_description>
+		<id>5</id>
+		<email>apples@email.pas</email>
+		<source_service_id>1111</source_service_id>
+		<alternate_name>How you like them apples (sp)</alternate_name>
+		<wait_time />
+		<payment_accepted>payment accepted (pas)</payment_accepted>
+		<interpretation_services />
+		<organization_name>TEST Organization Apples</organization_name>
+		<url>www.apples.pas</url>
+		<licenses />
+		<location_name>TEST Location Apples</location_name>
+		<source_id_program />
+		<organization_id>975</organization_id>
+		<name>You like apples? (sp)</name>
+		<service_area>service area description (pas)</service_area>
+		<region>MICH</region>
+		<postal_code>49511</postal_code>
+		<status>1</status>
+	</Services>
+	<Services>
+		<source_id_programAtSite />
+		<fees>No fees (sp)</fees>
+		<accreditations />
+		<city>East Grand Rapids</city>
+		<address_1>111 Golf Lane</address_1>
+		<program_id />
+		<county>Kent</county>
+		<description>State sponsored greens fees and gold equipment (sp)
+		</description>
+		<eligibility>No restrictions (sp)</eligibility>
+		<language>English, Spanish</language>
+		<source>Test Data</source>
+		<program>So much golf</program>
+		<location_id>976</location_id>
+		<application_process>Apply in person (sp)</application_process>
+		<required_document>No documentation required</required_document>
+		<area_served_description>Various locations</area_served_description>
+		<id>6</id>
+		<email>apples.location@test-email.com</email>
+		<source_service_id>1144</source_service_id>
+		<alternate_name>All day Golf (sp)</alternate_name>
+		<wait_time />
+		<payment_accepted>Not applicable</payment_accepted>
+		<interpretation_services />
+		<organization_name>TEST Organization Apples</organization_name>
+		<url>www.apples-location-test.com</url>
+		<licenses />
+		<location_name>TEST Location Apples</location_name>
+		<source_id_program />
+		<organization_id>975</organization_id>
+		<name>Golf Alot (sp)</name>
+		<service_area>Various locations</service_area>
+		<region>MICH</region>
+		<postal_code>49511</postal_code>
+		<status>1</status>
+	</Services>
+	<Services>
+		<source_id_programAtSite />
+		<fees>Donation accepted</fees>
+		<accreditations />
+		<city>Coloma</city>
+		<address_1>6648 Ryno Road</address_1>
+		<program_id />
+		<county>Berrien</county>
+		<description>Offers medical equipment on short-term loan.
+		</description>
+		<eligibility>Must be a resident of the service area, adults age 60 and
+			older.</eligibility>
+		<language />
+		<source>icarol</source>
+		<program>MEDICAL LOAN CLOSET</program>
+		<location_id>972</location_id>
+		<application_process>Walk-ins accepted</application_process>
+		<required_document>Call for details</required_document>
+		<area_served_description>Berrien County</area_served_description>
+		<id>7</id>
+		<email />
+		<source_service_id>1108</source_service_id>
+		<alternate_name>MEDICAL LOAN CLOSET</alternate_name>
+		<wait_time />
+		<payment_accepted>Not applicable</payment_accepted>
+		<interpretation_services />
+		<organization_name>NORTH BERRIEN SENIOR CENTER</organization_name>
+		<url>www.northberrienseniorcenter.org/services.htm</url>
+		<licenses />
+		<location_name>NORTH BERRIEN SENIOR CENTER</location_name>
+		<source_id_program>78143324</source_id_program>
+		<organization_id>971</organization_id>
+		<name>OCCASIONAL MEDICAL EQUIPMENT/SUPPLIES AND WHEELCHAIR DONANTION
+			PROGRAMS FOR OLDER ADULTS</name>
+		<service_area>Berrien County</service_area>
+		<region>GRYP</region>
+		<postal_code>49038</postal_code>
+		<status>1</status>
+	</Services>
+	<Services>
+		<source_id_programAtSite />
+		<fees>No fees</fees>
+		<accreditations />
+		<city>Coloma</city>
+		<address_1>6648 Ryno Road</address_1>
+		<program_id />
+		<county>Berrien</county>
+		<description>Provides health insurance information and counseling to
+			seniors turning 65 and needs a prescription drug plan.</description>
+		<eligibility>Must be a resident of the service area, adults age 60 and
+			older</eligibility>
+		<language />
+		<source>icarol</source>
+		<program>MMAP&apos;S SERVICE</program>
+		<location_id>972</location_id>
+		<application_process>Walk-ins accepted</application_process>
+		<required_document>Call for details; will need insurance information
+		</required_document>
+		<area_served_description>Berrien County</area_served_description>
+		<id>9</id>
+		<email />
+		<source_service_id>1109</source_service_id>
+		<alternate_name>MMAP&apos;S SERVICE</alternate_name>
+		<wait_time />
+		<payment_accepted>Not applicable</payment_accepted>
+		<interpretation_services />
+		<organization_name>NORTH BERRIEN SENIOR CENTER</organization_name>
+		<url>www.northberrienseniorcenter.org/health.htm</url>
+		<licenses />
+		<location_name>NORTH BERRIEN SENIOR CENTER</location_name>
+		<source_id_program>78143326</source_id_program>
+		<organization_id>971</organization_id>
+		<name>HEALTH INSURANCE INFORMATION/COUNSELING FOR OLDER ADULTS</name>
+		<service_area>Berrien County</service_area>
+		<region>GRYP</region>
+		<postal_code>49038</postal_code>
+		<status>1</status>
+	</Services>
+	<Services>
+		<source_id_programAtSite />
+		<fees>Donation accepted (sp)</fees>
+		<accreditations />
+		<city />
+		<address_1 />
+		<program_id />
+		<county />
+		<description>Good will hunting is top 10 all time (sp)</description>
+		<eligibility>No restrictions (sp)</eligibility>
+		<language>English, Spanish</language>
+		<source>Test Data</source>
+		<program>Best Apple Smack Talk</program>
+		<location_id>982</location_id>
+		<application_process>Referral in apples (sp)</application_process>
+		<required_document>No documentation required</required_document>
+		<area_served_description>Various locations</area_served_description>
+		<id>13</id>
+		<email>dem@apples.sp</email>
+		<source_service_id>1111</source_service_id>
+		<alternate_name>How you like them apples (sp)</alternate_name>
+		<wait_time />
+		<payment_accepted>Not applicable</payment_accepted>
+		<interpretation_services />
+		<organization_name>TEST Organization Apples</organization_name>
+		<url>www.freeapples.sp</url>
+		<licenses />
+		<location_name>TEST Location public address is private</location_name>
+		<source_id_program />
+		<organization_id>975</organization_id>
+		<name>You like apples? (sp)</name>
+		<service_area>Various locations</service_area>
+		<region>MICH</region>
+		<postal_code />
+		<status>1</status>
+	</Services>
+	<Services>
+		<source_id_programAtSite />
+		<fees />
+		<accreditations />
+		<city>East Grand Rapids</city>
+		<address_1>111 Golf Lane</address_1>
+		<program_id />
+		<county>Kent</county>
+		<description>program is inactive pas is public</description>
+		<eligibility />
+		<language />
+		<source>Test Data</source>
+		<program />
+		<location_id>976</location_id>
+		<application_process />
+		<required_document />
+		<area_served_description />
+		<id>14</id>
+		<email>apples.location@test-email.com</email>
+		<source_service_id>1116</source_service_id>
+		<alternate_name />
+		<wait_time />
+		<payment_accepted />
+		<interpretation_services />
+		<organization_name>TEST Organization Apples</organization_name>
+		<url>www.apples-location-test.com</url>
+		<licenses />
+		<location_name>TEST Location Apples</location_name>
+		<source_id_program />
+		<organization_id>975</organization_id>
+		<name>program is inactive (sp)</name>
+		<service_area />
+		<region>MICH</region>
+		<postal_code>49511</postal_code>
+		<status>1</status>
+	</Services>
+	<Services>
+		<source_id_programAtSite />
+		<fees>No fees (sp)</fees>
+		<accreditations />
+		<city>East Grand Rapids</city>
+		<address_1>111 Golf Lane</address_1>
+		<program_id />
+		<county>Kent</county>
+		<description>organization is inactive pas is public</description>
+		<eligibility>No restrictions (sp)</eligibility>
+		<language>English, Spanish</language>
+		<source>Test Data</source>
+		<program>So much golf</program>
+		<location_id>976</location_id>
+		<application_process>Apply in person (sp)</application_process>
+		<required_document>No documentation required</required_document>
+		<area_served_description>Various locations</area_served_description>
+		<id>23</id>
+		<email>apples.location@test-email.com</email>
+		<source_service_id>1144</source_service_id>
+		<alternate_name>All day Golf (sp)</alternate_name>
+		<wait_time />
+		<payment_accepted>Not applicable</payment_accepted>
+		<interpretation_services />
+		<organization_name>TEST Organization Apples</organization_name>
+		<url>www.apples-location-test.com</url>
+		<licenses />
+		<location_name>TEST Location Apples</location_name>
+		<source_id_program />
+		<organization_id>975</organization_id>
+		<name>Golf Alot (sp)</name>
+		<service_area>Various locations</service_area>
+		<region>MICH</region>
+		<postal_code>49511</postal_code>
+		<status>1</status>
+	</Services>
+</root>

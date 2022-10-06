@@ -8,6 +8,7 @@ import org.springframework.boot.web.servlet.ServletComponentScan;
 import org.springframework.boot.web.servlet.ServletRegistrationBean;
 import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
 
 //import ca.uhn.fhir.jpa.starter.annotations.OnEitherVersion;
 import ca.uhn.fhir.rest.server.RestfulServer;
@@ -16,6 +17,7 @@ import ca.uhn.fhir.rest.server.RestfulServer;
 
 @ServletComponentScan(basePackageClasses = { RestfulServer.class })
 @SpringBootApplication()
+@ComponentScan({ "com.mdix.fhir.facade", "com.mdix.fhir.facade.provider" })
 public class Application extends SpringBootServletInitializer {
 
 	public static void main(String[] args) {

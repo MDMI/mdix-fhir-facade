@@ -1,0 +1,509 @@
+{
+	"entry": [
+		{
+			"request": {
+				"method": "POST",
+				"url": "HealthcareService"
+			},
+			"resource": {
+				"identifier": [
+					{
+						"value": "1"
+					}
+				],
+				"name": "COUNSELING SERVICES AND PREVENTION FOR CHILDREN WHO ARE ABUSED",
+				"active": true,
+				"comment": "Provides forensic interviews for sexually abused children, counseling services for sexually abused children, including adults survivors of child sexual abuse, and prevention education.",
+				"telecom": [
+					{
+						"system": "email",
+						"value": "info@swmichigancac.org"
+					},
+					{
+						"system": "url",
+						"value": "www.swmichigancac.org"
+					}
+				],
+				"id": "69a6878a-92bb-4cd8-924e-07750ea9eb9c",
+				"program": [
+					{
+						"coding": [
+							{
+								"display": "CHILDREN'S ADVOCACY CENTER"
+							}
+						]
+					}
+				],
+				"communication": [
+					{
+						"coding": [
+							{
+								"display": "Interpretation services available"
+							}
+						]
+					}
+				],
+				"referralMethod": [
+					{
+						"coding": [
+							{
+								"display": "Referral required from Child Protective Services or Law Enforcement for forensic interviewing services. Therapy services available to children and adult survivors of child sexual abuse."
+							}
+						]
+					}
+				],
+				"resourceType": "HealthcareService"
+			},
+			"fullUrl": "HealthcareService/69a6878a-92bb-4cd8-924e-07750ea9eb9c"
+		},
+		{
+			"request": {
+				"method": "POST",
+				"url": "HealthcareService"
+			},
+			"resource": {
+				"identifier": [
+					{
+						"value": "2"
+					}
+				],
+				"name": "You like apples? (sp)",
+				"active": true,
+				"comment": "Good will hunting is top 10 all time (sp)",
+				"telecom": [
+					{
+						"system": "email",
+						"value": "dem@apples.sp"
+					},
+					{
+						"system": "url",
+						"value": "www.freeapples.sp"
+					}
+				],
+				"id": "89e995be-326e-4159-adb9-a8c9a900e803",
+				"program": [
+					{
+						"coding": [
+							{
+								"display": "Best Apple Smack Talk"
+							}
+						]
+					}
+				],
+				"communication": [
+					{
+						"coding": [
+							{
+								"display": "English, Spanish"
+							}
+						]
+					}
+				],
+				"referralMethod": [
+					{
+						"coding": [
+							{
+								"display": "Referral in apples (sp)"
+							}
+						]
+					}
+				],
+				"resourceType": "HealthcareService"
+			},
+			"fullUrl": "HealthcareService/89e995be-326e-4159-adb9-a8c9a900e803"
+		},
+		{
+			"request": {
+				"method": "POST",
+				"url": "HealthcareService"
+			},
+			"resource": {
+				"identifier": [
+					{
+						"value": "4"
+					}
+				],
+				"name": "CONGREGATE MEALS/NUTRTION SITES AND HOME DELIVERED MEALS",
+				"active": true,
+				"comment": "Serves as a Congregate meal site and home delivered meals for seniors.",
+				"telecom": [
+					{
+						"system": "email"
+					},
+					{
+						"system": "url",
+						"value": "www.northberrienseniorcenter.org/services.htm"
+					}
+				],
+				"id": "309135ff-1ac3-4e1f-9db0-5035aaa4b266",
+				"program": [
+					{
+						"coding": [
+							{
+								"display": "CONGREGATE MEAL SITE"
+							}
+						]
+					}
+				],
+				"referralMethod": [
+					{
+						"coding": [
+							{
+								"display": "Call for availability"
+							}
+						]
+					}
+				],
+				"resourceType": "HealthcareService"
+			},
+			"fullUrl": "HealthcareService/309135ff-1ac3-4e1f-9db0-5035aaa4b266"
+		},
+		{
+			"request": {
+				"method": "POST",
+				"url": "HealthcareService"
+			},
+			"resource": {
+				"identifier": [
+					{
+						"value": "5"
+					}
+				],
+				"name": "You like apples? (sp)",
+				"active": true,
+				"comment": "apples (pas)",
+				"telecom": [
+					{
+						"system": "email",
+						"value": "apples@email.pas"
+					},
+					{
+						"system": "url",
+						"value": "www.apples.pas"
+					}
+				],
+				"id": "6409913e-3759-4a5e-984a-d814cfac47f5",
+				"program": [
+					{
+						"coding": [
+							{
+								"display": "Best Apple Smack Talk"
+							}
+						]
+					}
+				],
+				"communication": [
+					{
+						"coding": [
+							{
+								"display": "language (pas)"
+							}
+						]
+					}
+				],
+				"referralMethod": [
+					{
+						"coding": [
+							{
+								"display": "application process (pas)"
+							}
+						]
+					}
+				],
+				"resourceType": "HealthcareService"
+			},
+			"fullUrl": "HealthcareService/6409913e-3759-4a5e-984a-d814cfac47f5"
+		},
+		{
+			"request": {
+				"method": "POST",
+				"url": "HealthcareService"
+			},
+			"resource": {
+				"identifier": [
+					{
+						"value": "6"
+					}
+				],
+				"name": "Golf Alot (sp)",
+				"active": true,
+				"comment": "State sponsored greens fees and gold equipment (sp)",
+				"telecom": [
+					{
+						"system": "email",
+						"value": "apples.location@test-email.com"
+					},
+					{
+						"system": "url",
+						"value": "www.apples-location-test.com"
+					}
+				],
+				"id": "4e62e5d8-4bef-4b61-953a-3339b8d0dcfa",
+				"program": [
+					{
+						"coding": [
+							{
+								"display": "So much golf"
+							}
+						]
+					}
+				],
+				"communication": [
+					{
+						"coding": [
+							{
+								"display": "English, Spanish"
+							}
+						]
+					}
+				],
+				"referralMethod": [
+					{
+						"coding": [
+							{
+								"display": "Apply in person (sp)"
+							}
+						]
+					}
+				],
+				"resourceType": "HealthcareService"
+			},
+			"fullUrl": "HealthcareService/4e62e5d8-4bef-4b61-953a-3339b8d0dcfa"
+		},
+		{
+			"request": {
+				"method": "POST",
+				"url": "HealthcareService"
+			},
+			"resource": {
+				"identifier": [
+					{
+						"value": "7"
+					}
+				],
+				"name": "OCCASIONAL MEDICAL EQUIPMENT/SUPPLIES AND WHEELCHAIR DONANTION PROGRAMS FOR OLDER ADULTS",
+				"active": true,
+				"comment": "Offers medical equipment on short-term loan.",
+				"telecom": [
+					{
+						"system": "email"
+					},
+					{
+						"system": "url",
+						"value": "www.northberrienseniorcenter.org/services.htm"
+					}
+				],
+				"id": "96e302aa-025d-447c-ade8-dce005b30d1f",
+				"program": [
+					{
+						"coding": [
+							{
+								"display": "MEDICAL LOAN CLOSET"
+							}
+						]
+					}
+				],
+				"referralMethod": [
+					{
+						"coding": [
+							{
+								"display": "Walk-ins accepted"
+							}
+						]
+					}
+				],
+				"resourceType": "HealthcareService"
+			},
+			"fullUrl": "HealthcareService/96e302aa-025d-447c-ade8-dce005b30d1f"
+		},
+		{
+			"request": {
+				"method": "POST",
+				"url": "HealthcareService"
+			},
+			"resource": {
+				"identifier": [
+					{
+						"value": "9"
+					}
+				],
+				"name": "HEALTH INSURANCE INFORMATION/COUNSELING FOR OLDER ADULTS",
+				"active": true,
+				"comment": "Provides health insurance information and counseling to seniors turning 65 and needs a prescription drug plan.",
+				"telecom": [
+					{
+						"system": "email"
+					},
+					{
+						"system": "url",
+						"value": "www.northberrienseniorcenter.org/health.htm"
+					}
+				],
+				"id": "7022ec0f-8a63-47bf-a65f-845db348484d",
+				"program": [
+					{
+						"coding": [
+							{
+								"display": "MMAP'S SERVICE"
+							}
+						]
+					}
+				],
+				"referralMethod": [
+					{
+						"coding": [
+							{
+								"display": "Walk-ins accepted"
+							}
+						]
+					}
+				],
+				"resourceType": "HealthcareService"
+			},
+			"fullUrl": "HealthcareService/7022ec0f-8a63-47bf-a65f-845db348484d"
+		},
+		{
+			"request": {
+				"method": "POST",
+				"url": "HealthcareService"
+			},
+			"resource": {
+				"identifier": [
+					{
+						"value": "13"
+					}
+				],
+				"name": "You like apples? (sp)",
+				"active": true,
+				"comment": "Good will hunting is top 10 all time (sp)",
+				"telecom": [
+					{
+						"system": "email",
+						"value": "dem@apples.sp"
+					},
+					{
+						"system": "url",
+						"value": "www.freeapples.sp"
+					}
+				],
+				"id": "c018876a-38a2-4c97-bee7-13a472d91af2",
+				"program": [
+					{
+						"coding": [
+							{
+								"display": "Best Apple Smack Talk"
+							}
+						]
+					}
+				],
+				"communication": [
+					{
+						"coding": [
+							{
+								"display": "English, Spanish"
+							}
+						]
+					}
+				],
+				"referralMethod": [
+					{
+						"coding": [
+							{
+								"display": "Referral in apples (sp)"
+							}
+						]
+					}
+				],
+				"resourceType": "HealthcareService"
+			},
+			"fullUrl": "HealthcareService/c018876a-38a2-4c97-bee7-13a472d91af2"
+		},
+		{
+			"request": {
+				"method": "POST",
+				"url": "HealthcareService"
+			},
+			"resource": {
+				"identifier": [
+					{
+						"value": "14"
+					}
+				],
+				"name": "program is inactive (sp)",
+				"active": true,
+				"comment": "program is inactive pas is public",
+				"telecom": [
+					{
+						"system": "email",
+						"value": "apples.location@test-email.com"
+					},
+					{
+						"system": "url",
+						"value": "www.apples-location-test.com"
+					}
+				],
+				"id": "32b43e40-58ca-46b8-ac7b-c97a17cd7ead",
+				"resourceType": "HealthcareService"
+			},
+			"fullUrl": "HealthcareService/32b43e40-58ca-46b8-ac7b-c97a17cd7ead"
+		},
+		{
+			"request": {
+				"method": "POST",
+				"url": "HealthcareService"
+			},
+			"resource": {
+				"identifier": [
+					{
+						"value": "23"
+					}
+				],
+				"name": "Golf Alot (sp)",
+				"active": true,
+				"comment": "organization is inactive pas is public",
+				"telecom": [
+					{
+						"system": "email",
+						"value": "apples.location@test-email.com"
+					},
+					{
+						"system": "url",
+						"value": "www.apples-location-test.com"
+					}
+				],
+				"id": "b0f2bd7c-f38a-4398-8caf-2147bbb9597b",
+				"program": [
+					{
+						"coding": [
+							{
+								"display": "So much golf"
+							}
+						]
+					}
+				],
+				"communication": [
+					{
+						"coding": [
+							{
+								"display": "English, Spanish"
+							}
+						]
+					}
+				],
+				"referralMethod": [
+					{
+						"coding": [
+							{
+								"display": "Apply in person (sp)"
+							}
+						]
+					}
+				],
+				"resourceType": "HealthcareService"
+			},
+			"fullUrl": "HealthcareService/b0f2bd7c-f38a-4398-8caf-2147bbb9597b"
+		}
+	],
+	"type": "transaction",
+	"resourceType": "Bundle"
+}

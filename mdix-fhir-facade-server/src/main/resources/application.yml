@@ -1,0 +1,32 @@
+server:
+  port: 8080
+
+spring:
+  servlet:
+    multipart:
+      max-file-size: -1
+      max-request-size: -1
+
+logging:
+  level:
+    root: INFO
+    org.mdmi: INFO
+    org.springframework.web: INFO
+    org.springframework.security: INFO
+
+fhirterminology:
+    userName: user
+    password: user
+    url: http://terminologyservice.mdixinc.net:8080/fhir
+
+hsdssettings:
+    tokenUrl: https://login-uat.mi-cie.org/oauth2/token
+    clientId: 2p53cbe7e9rl3jvaidfpc4jrbq
+    clientSecret: boh3ppeghe3dr7iq7rl1ku2gt4sa1ptlm4ngk9k6vmk82o71i7j
+    xrfToken: 8bcb84ca-46ba-4a53-8602-a309dad42b5a
+    scope: mi-cie.directory/read
+    directoryUrl: https://directory-uat.mi-cie.org/v1/
+    xApiKey: RkhJUkZBQ0FERToxODI2NDg5Mjc=
+
+origins:
+  url: ""

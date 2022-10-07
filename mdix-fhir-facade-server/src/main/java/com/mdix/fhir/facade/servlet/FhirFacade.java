@@ -9,6 +9,7 @@ import javax.servlet.ServletContext;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.cors.CorsConfiguration;
 
+import com.mdix.fhir.facade.hsds.HsdsClient;
 import com.mdix.fhir.facade.provider.HSDSHealthcareServiceResourceProvider;
 import com.mdix.fhir.facade.provider.HSDSLocationResourceProvider;
 import com.mdix.fhir.facade.provider.HSDSOrganizationResourceProvider;
@@ -32,6 +33,12 @@ public class FhirFacade extends RestfulServer {
 	@Autowired
 	ServletContext context;
 
+	@Autowired
+	FHIRTerminologySettings terminologySettings;
+
+	@Autowired
+	HsdsClient hsdsClient;
+
 	/**
 	 * Constructor
 	 */
@@ -51,9 +58,9 @@ public class FhirFacade extends RestfulServer {
 		 */
 		List<IResourceProvider> providers = new ArrayList<>();
 
-		providers.add(new HSDSHealthcareServiceResourceProvider(context));
-		providers.add(new HSDSLocationResourceProvider());
-		providers.add(new HSDSOrganizationResourceProvider());
+		providers.add(new HSDSHealthcareServiceResourceProvider(context, terminologySettings, hsdsClient));
+		providers.add(new HSDSLocationResourceProvider(context, terminologySettings, hsdsClient));
+		providers.add(new HSDSOrganizationResourceProvider(context, terminologySettings, hsdsClient));
 		setResourceProviders(providers);
 
 		/*

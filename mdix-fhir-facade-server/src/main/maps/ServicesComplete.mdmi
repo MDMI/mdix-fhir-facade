@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="ASCII"?>
 <xmi:XMI xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:mdmi="http://schema.omg.org/spec/MDMI/1.0">
   <mdmi:MessageGroup xmi:id="_1sjKgETrEe2839Weg2ZokQ" name="HSDSJSON" description="SKIPCONTAINMENT" defaultLocationExprLang="XPath" defaultConstraintExprLang="JavaScript" defaultRuleExprLang="JavaScript">
-    <models xmi:id="_1sjKgUTrEe2839Weg2ZokQ" messageModelName="ServicesComplete" description="2022-10-05 17:03:50.089">
+    <models xmi:id="_1sjKgUTrEe2839Weg2ZokQ" messageModelName="ServicesComplete" description="2022-10-07 00:58:36.373">
       <syntaxModel xmi:id="_1sjKgkTrEe2839Weg2ZokQ">
         <root xsi:type="mdmi:Bag" xmi:id="_1sjKg0TrEe2839Weg2ZokQ" name="root" minOccurs="1" maxOccurs="1" location="root" semanticElement="_1sjK6ETrEe2839Weg2ZokQ">
-          <nodes xsi:type="mdmi:Bag" xmi:id="_1sjKhETrEe2839Weg2ZokQ" name="Services" maxOccurs="1" location="Services" semanticElement="_1sjK6UTrEe2839Weg2ZokQ">
+          <nodes xsi:type="mdmi:Bag" xmi:id="_1sjKhETrEe2839Weg2ZokQ" name="Services" maxOccurs="1" location="row" semanticElement="_1sjK6UTrEe2839Weg2ZokQ">
             <nodes xsi:type="mdmi:LeafSyntaxTranslator" xmi:id="_1sjKhUTrEe2839Weg2ZokQ" name="id" maxOccurs="1" location="id" semanticElement="_1sjK6kTrEe2839Weg2ZokQ"/>
             <nodes xsi:type="mdmi:LeafSyntaxTranslator" xmi:id="_1sjKhkTrEe2839Weg2ZokQ" name="organization_id" maxOccurs="1" location="organization_id" semanticElement="_1sjK60TrEe2839Weg2ZokQ"/>
             <nodes xsi:type="mdmi:LeafSyntaxTranslator" xmi:id="_1sjKh0TrEe2839Weg2ZokQ" name="location_id" maxOccurs="1" location="location_id" semanticElement="_1sjK7ETrEe2839Weg2ZokQ"/>
@@ -207,7 +207,7 @@
         <semanticElements xmi:id="_1sjLEETrEe2839Weg2ZokQ" name="administrative_hours" elementType="NORMAL" datatype="_1sjLUUTrEe2839Weg2ZokQ" parent="_1sjLB0TrEe2839Weg2ZokQ" syntaxNode="_1sjKq0TrEe2839Weg2ZokQ"/>
         <semanticElements xmi:id="_1sjLEUTrEe2839Weg2ZokQ" name="service_hours" elementType="NORMAL" datatype="_1sjLUUTrEe2839Weg2ZokQ" parent="_1sjLB0TrEe2839Weg2ZokQ" syntaxNode="_1sjKrETrEe2839Weg2ZokQ"/>
         <semanticElements xmi:id="_1sjLEkTrEe2839Weg2ZokQ" name="site_hours" elementType="NORMAL" datatype="_1sjLUUTrEe2839Weg2ZokQ" parent="_1sjLB0TrEe2839Weg2ZokQ" syntaxNode="_1sjKrUTrEe2839Weg2ZokQ"/>
-        <semanticElements xmi:id="_1sjLE0TrEe2839Weg2ZokQ" name="phones" elementType="NORMAL" datatype="_tTiw2ETuEe2839Weg2ZokQ" parent="_1sjK6UTrEe2839Weg2ZokQ" children="_1sjLFETrEe2839Weg2ZokQ _1sjLFUTrEe2839Weg2ZokQ _1sjLFkTrEe2839Weg2ZokQ _1sjLF0TrEe2839Weg2ZokQ _1sjLGETrEe2839Weg2ZokQ _1sjLGUTrEe2839Weg2ZokQ _1sjLGkTrEe2839Weg2ZokQ _1sjLG0TrEe2839Weg2ZokQ _1sjLHETrEe2839Weg2ZokQ _1sjLHUTrEe2839Weg2ZokQ _1sjLHkTrEe2839Weg2ZokQ _1sjLH0TrEe2839Weg2ZokQ _1sjLIETrEe2839Weg2ZokQ _1sjLIUTrEe2839Weg2ZokQ" syntaxNode="_1sjKrkTrEe2839Weg2ZokQ"/>
+        <semanticElements xmi:id="_1sjLE0TrEe2839Weg2ZokQ" name="phones" elementType="LOCAL" datatype="_tTiw2ETuEe2839Weg2ZokQ" parent="_1sjK6UTrEe2839Weg2ZokQ" children="_1sjLFETrEe2839Weg2ZokQ _1sjLFUTrEe2839Weg2ZokQ _1sjLFkTrEe2839Weg2ZokQ _1sjLF0TrEe2839Weg2ZokQ _1sjLGETrEe2839Weg2ZokQ _1sjLGUTrEe2839Weg2ZokQ _1sjLGkTrEe2839Weg2ZokQ _1sjLG0TrEe2839Weg2ZokQ _1sjLHETrEe2839Weg2ZokQ _1sjLHUTrEe2839Weg2ZokQ _1sjLHkTrEe2839Weg2ZokQ _1sjLH0TrEe2839Weg2ZokQ _1sjLIETrEe2839Weg2ZokQ _1sjLIUTrEe2839Weg2ZokQ _QOgUoEX8Ee2839Weg2ZokQ" syntaxNode="_1sjKrkTrEe2839Weg2ZokQ"/>
         <semanticElements xmi:id="_1sjLFETrEe2839Weg2ZokQ" name="id" elementType="NORMAL" datatype="_1sjLUUTrEe2839Weg2ZokQ" parent="_1sjLE0TrEe2839Weg2ZokQ" syntaxNode="_1sjKr0TrEe2839Weg2ZokQ"/>
         <semanticElements xmi:id="_1sjLFUTrEe2839Weg2ZokQ" name="organization_id" elementType="NORMAL" datatype="_1sjLUUTrEe2839Weg2ZokQ" parent="_1sjLE0TrEe2839Weg2ZokQ" syntaxNode="_1sjKsETrEe2839Weg2ZokQ"/>
         <semanticElements xmi:id="_1sjLFkTrEe2839Weg2ZokQ" name="location_id" elementType="NORMAL" datatype="_1sjLUUTrEe2839Weg2ZokQ" parent="_1sjLE0TrEe2839Weg2ZokQ" syntaxNode="_1sjKsUTrEe2839Weg2ZokQ"/>
@@ -264,6 +264,14 @@
         <semanticElements xmi:id="_1sjLSUTrEe2839Weg2ZokQ" name="source_service_id" elementType="NORMAL" datatype="_1sjLUUTrEe2839Weg2ZokQ" parent="_1sjLRkTrEe2839Weg2ZokQ" syntaxNode="_1sjK5ETrEe2839Weg2ZokQ"/>
         <semanticElements xmi:id="_1sjLSkTrEe2839Weg2ZokQ" name="type" elementType="NORMAL" datatype="_1sjLUUTrEe2839Weg2ZokQ" parent="_1sjLRkTrEe2839Weg2ZokQ" syntaxNode="_1sjK5UTrEe2839Weg2ZokQ"/>
         <semanticElements xmi:id="_1sjLS0TrEe2839Weg2ZokQ" name="name" elementType="NORMAL" datatype="_1sjLUUTrEe2839Weg2ZokQ" parent="_1sjLRkTrEe2839Weg2ZokQ" syntaxNode="_1sjK5kTrEe2839Weg2ZokQ"/>
+        <semanticElements xmi:id="_QOgUoEX8Ee2839Weg2ZokQ" name="PhoneRollup1665118524" datatype="_tTixIUTuEe2839Weg2ZokQ" parent="_1sjLE0TrEe2839Weg2ZokQ">
+          <relationships xmi:id="_QOgUokX8Ee2839Weg2ZokQ" name="number" rule="value.getXValue().addValue('value', '&lt;&lt;LOCALSEMANTICVALUE>>>' );" context="_QOgUoEX8Ee2839Weg2ZokQ" relatedSemanticElement="_1sjLGkTrEe2839Weg2ZokQ"/>
+          <relationships xmi:id="_QOgUo0X8Ee2839Weg2ZokQ" name="phone_type_hierarchy" rule="value.getXValue().addValue('rank', '&lt;&lt;LOCALSEMANTICVALUE>>>' );" context="_QOgUoEX8Ee2839Weg2ZokQ" relatedSemanticElement="_1sjLHETrEe2839Weg2ZokQ"/>
+          <relationships xmi:id="_QOg7sEX8Ee2839Weg2ZokQ" name="type" rule="value.getXValue().addValue('system', '&lt;&lt;LOCALSEMANTICVALUE>>>' );" context="_QOgUoEX8Ee2839Weg2ZokQ" relatedSemanticElement="_1sjLHUTrEe2839Weg2ZokQ"/>
+          <mapFromMdmi xmi:id="_gd4tUUX8Ee2839Weg2ZokQ" name="MDMI2Message4PhoneRollup1665118524" businessElement="_u3pn70TuEe2839Weg2ZokQ"/>
+          <computedValue xmi:id="_QOgUoUX8Ee2839Weg2ZokQ" expression="SEMANTICROLLUP" language="JavaScript"/>
+          <mapToMdmi xmi:id="_gd4tUEX8Ee2839Weg2ZokQ" name="Message2MDMI4PhoneRollup1665118524" businessElement="_u3pn70TuEe2839Weg2ZokQ"/>
+        </semanticElements>
       </elementSet>
     </models>
     <domainDictionary xmi:id="_tTixM0TuEe2839Weg2ZokQ">

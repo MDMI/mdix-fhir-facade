@@ -17,6 +17,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 import com.mdix.fhir.facade.Application;
 
 import ca.uhn.fhir.context.FhirContext;
+import ca.uhn.fhir.parser.IParser;
 import ca.uhn.fhir.rest.client.api.IGenericClient;
 import ca.uhn.fhir.util.BundleUtil;
 
@@ -42,8 +43,9 @@ class TestLocation {
 		// We'll do a search for all Patients and extract the first page
 		Bundle bundle = client.search().forResource(Location.class).returnBundle(Bundle.class).execute();
 		organizations.addAll(BundleUtil.toListOfResources(ctx, bundle));
+		IParser parser = ctx.newJsonParser();
 		for (IBaseResource resoure : organizations) {
-			System.out.println(resoure);
+			System.out.println(parser.setPrettyPrint(true).encodeResourceToString(resoure));
 		}
 
 	}

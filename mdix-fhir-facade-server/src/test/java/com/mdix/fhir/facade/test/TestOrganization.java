@@ -32,6 +32,7 @@ class TestOrganization {
 	void testSearchOrganization() {
 		// Create a context and a client
 		FhirContext ctx = FhirContext.forR4();
+		ctx.getRestfulClientFactory().setSocketTimeout(200 * 1000);
 		// There might be a better way to get the current url
 		String serverBase = template.getRootUri() + "/fhir/";
 

@@ -14,13 +14,13 @@ package com.mdix.fhir.facade.servlet;
 import java.util.Base64;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
-import org.springframework.stereotype.Component;
+import org.springframework.context.annotation.Configuration;
 
 /**
  * @author seanmuir
  *
  */
-@Component
+@Configuration
 @ConfigurationProperties("hsdssettings")
 public class HsdsSettings {
 

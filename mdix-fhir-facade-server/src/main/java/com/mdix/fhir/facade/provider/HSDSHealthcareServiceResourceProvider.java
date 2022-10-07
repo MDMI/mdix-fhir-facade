@@ -13,7 +13,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.mdix.fhir.facade.hsds.HsdsClient;
-import com.mdix.fhir.facade.servlet.FHIRTerminologySettings;
+import com.mdix.fhir.facade.servlet.MDMISettings;
 
 import ca.uhn.fhir.context.FhirContext;
 import ca.uhn.fhir.parser.IParser;
@@ -44,7 +44,7 @@ public class HSDSHealthcareServiceResourceProvider extends MDMIProvider implemen
 	 * @param terminologySettings2
 	 * @param hsdsClient2
 	 */
-	public HSDSHealthcareServiceResourceProvider(ServletContext context2, FHIRTerminologySettings terminologySettings2,
+	public HSDSHealthcareServiceResourceProvider(ServletContext context2, MDMISettings terminologySettings2,
 			HsdsClient hsdsClient2) {
 		super(context2, terminologySettings2);
 		hsdsClient = hsdsClient2;

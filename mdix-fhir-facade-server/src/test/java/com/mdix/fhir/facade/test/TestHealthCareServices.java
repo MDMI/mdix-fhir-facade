@@ -6,6 +6,7 @@ import java.util.List;
 import org.hl7.fhir.instance.model.api.IBaseResource;
 import org.hl7.fhir.r4.model.Bundle;
 import org.hl7.fhir.r4.model.HealthcareService;
+import org.junit.BeforeClass;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,6 +26,11 @@ import ca.uhn.fhir.util.BundleUtil;
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = Application.class, webEnvironment = WebEnvironment.RANDOM_PORT)
 class TestHealthCareServices {
+
+	@BeforeClass
+	public static void setEnvironment() {
+		System.setProperty("mdmimaps", "src/test/resources/testmaps");
+	}
 
 	@Autowired
 	private TestRestTemplate template;

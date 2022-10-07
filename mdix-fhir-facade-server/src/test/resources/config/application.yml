@@ -18,7 +18,7 @@ fhirterminology:
     userName: user
     password: user
     url: http://terminologyservice.mdixinc.net:8080/fhir
-    mapsFolder: maps
+    mapsFolder: src/main/resources/maps
 
 hsdssettings:
     tokenUrl: https://login-uat.mi-cie.org/oauth2/token

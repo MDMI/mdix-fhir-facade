@@ -14,10 +14,9 @@ import org.hl7.fhir.r4.model.Location;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 
 import com.mdix.fhir.facade.hsds.HsdsClient;
-import com.mdix.fhir.facade.servlet.FHIRTerminologySettings;
+import com.mdix.fhir.facade.servlet.MDMISettings;
 
 import ca.uhn.fhir.context.FhirContext;
 import ca.uhn.fhir.parser.IParser;
@@ -46,22 +45,19 @@ public class HSDSLocationResourceProvider extends MDMIProvider implements IResou
 	 * @param context
 	 * @param terminologySettings
 	 */
-	public HSDSLocationResourceProvider(ServletContext context, FHIRTerminologySettings terminologySettings,
+	public HSDSLocationResourceProvider(ServletContext context, MDMISettings terminologySettings,
 			HsdsClient hsdsClient2) {
 		super(context, terminologySettings);
 		hsdsClient = hsdsClient2;
 	}
 
 	@Autowired
-	FHIRTerminologySettings terminologySettings;
+	MDMISettings terminologySettings;
 
 	@Autowired
 	ServletContext context;
 
 	static Boolean loaded = Boolean.FALSE;
-
-	@Value("#{systemProperties['mdmi.maps'] ?: '/maps'}")
-	private String mapsFolder;
 
 	private HashMap<String, Properties> mapProperties = new HashMap<>();
 

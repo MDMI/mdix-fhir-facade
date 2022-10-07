@@ -34,7 +34,7 @@ public class FhirFacade extends RestfulServer {
 	ServletContext context;
 
 	@Autowired
-	FHIRTerminologySettings terminologySettings;
+	MDMISettings terminologySettings;
 
 	@Autowired
 	HsdsClient hsdsClient;

@@ -21,34 +21,21 @@ import org.springframework.stereotype.Component;
 
 @Component
 @ConfigurationProperties("fhirterminology")
-public class FHIRTerminologySettings {
+public class MDMISettings {
+
+	private String mapsFolder;
+
+	private String password;
+
+	private String url;
+
+	private String userName;
 
 	/**
-	 * @return the url
+	 * @return
 	 */
-	public String getUrl() {
-		return url;
-	}
-
-	/**
-	 * @param url the url to set
-	 */
-	public void setUrl(String url) {
-		this.url = url;
-	}
-
-	/**
-	 * @return the userName
-	 */
-	public String getUserName() {
-		return userName;
-	}
-
-	/**
-	 * @param userName the userName to set
-	 */
-	public void setUserName(String userName) {
-		this.userName = userName;
+	public String getMapsFolder() {
+		return mapsFolder;
 	}
 
 	/**
@@ -59,16 +46,45 @@ public class FHIRTerminologySettings {
 	}
 
 	/**
+	 * @return the url
+	 */
+	public String getUrl() {
+		return url;
+	}
+
+	/**
+	 * @return the userName
+	 */
+	public String getUserName() {
+		return userName;
+	}
+
+	/**
+	 * @param mapsFolder the mapsFolder to set
+	 */
+	public void setMapsFolder(String mapsFolder) {
+		this.mapsFolder = mapsFolder;
+	}
+
+	/**
 	 * @param password the password to set
 	 */
 	public void setPassword(String password) {
 		this.password = password;
 	}
 
-	private String url;
+	/**
+	 * @param url the url to set
+	 */
+	public void setUrl(String url) {
+		this.url = url;
+	}
 
-	private String userName;
-
-	private String password;
+	/**
+	 * @param userName the userName to set
+	 */
+	public void setUserName(String userName) {
+		this.userName = userName;
+	}
 
 }

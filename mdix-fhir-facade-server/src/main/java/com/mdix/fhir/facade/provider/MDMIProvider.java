@@ -33,7 +33,7 @@ import org.mdmi.core.runtime.RuntimeService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.mdix.fhir.facade.servlet.FHIRTerminologySettings;
+import com.mdix.fhir.facade.servlet.MDMISettings;
 
 /**
  * @author seanmuir
@@ -45,21 +45,24 @@ public class MDMIProvider {
 
 	ServletContext context;
 
-	FHIRTerminologySettings terminologySettings;
+	MDMISettings mdmiSettings;
 
 	static Boolean loaded = Boolean.FALSE;
 
-	private String mapsFolder = "/Users/seanmuir/git/mdix-fhir-facade/mdix-fhir-facade-server/src/main/maps";
+	private String mapsFolder;
+
+	// private String mapsFolder = "/Users/seanmuir/git/mdix-fhir-facade/mdix-fhir-facade-server/src/main/maps";
 
 	private HashMap<String, Properties> mapProperties = new HashMap<>();
 
 	/**
 	 *
 	 */
-	public MDMIProvider(ServletContext context, FHIRTerminologySettings terminologySettings) {
+	public MDMIProvider(ServletContext context, MDMISettings mdmiSettings) {
 		super();
 		this.context = context;
-		this.terminologySettings = terminologySettings;
+		this.mdmiSettings = mdmiSettings;
+		mapsFolder = this.mdmiSettings.getMapsFolder();
 	}
 
 	protected void loadMaps() throws IOException {
@@ -72,13 +75,13 @@ public class MDMIProvider {
 
 			FHIRTerminologyTransform.processTerminology = false;
 
-			FHIRTerminologyTransform.setFHIRTerminologyURL(terminologySettings.getUrl());
+			FHIRTerminologyTransform.setFHIRTerminologyURL(mdmiSettings.getUrl());
 
-			FHIRTerminologyTransform.setUserName(terminologySettings.getUserName());
+			FHIRTerminologyTransform.setUserName(mdmiSettings.getUserName());
 
-			FHIRTerminologyTransform.setPassword(terminologySettings.getPassword());
+			FHIRTerminologyTransform.setPassword(mdmiSettings.getPassword());
 
-			Set<String> maps = Stream.of(new File(mapsFolder).listFiles()).filter(
+			Set<String> maps = Stream.of(new File(mdmiSettings.getMapsFolder()).listFiles()).filter(
 				file -> (!file.isDirectory() && file.toString().endsWith("mdmi"))).map(File::getName).collect(
 					Collectors.toSet());
 			for (String map : maps) {

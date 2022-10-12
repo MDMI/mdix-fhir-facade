@@ -1,12 +1,12 @@
 package com.mdix.fhir.facade.test;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 
-import org.hl7.fhir.instance.model.api.IBaseResource;
 import org.hl7.fhir.r4.model.Bundle;
 import org.hl7.fhir.r4.model.HealthcareService;
-import org.junit.BeforeClass;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,46 +21,110 @@ import ca.uhn.fhir.context.FhirContext;
 import ca.uhn.fhir.model.api.Include;
 import ca.uhn.fhir.parser.IParser;
 import ca.uhn.fhir.rest.client.api.IGenericClient;
-import ca.uhn.fhir.util.BundleUtil;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = Application.class, webEnvironment = WebEnvironment.RANDOM_PORT)
 class TestHealthCareServices {
 
-	@BeforeClass
-	public static void setEnvironment() {
-		System.setProperty("mdmimaps", "src/test/resources/testmaps");
-	}
-
 	@Autowired
 	private TestRestTemplate template;
 
 	@Test
-	void testSearchHealthCareServices() {
+	void testSearchHealthCareServices() throws Exception {
+
 		// Create a context and a client
 		FhirContext ctx = FhirContext.forR4();
-		ctx.getRestfulClientFactory().setSocketTimeout(200 * 1000);
+		IParser parser = ctx.newJsonParser();
+
+		ctx.getRestfulClientFactory().setConnectTimeout(1000000);
 		// There might be a better way to get the current url
 		String serverBase = template.getRootUri() + "/fhir/";
 
-		IGenericClient client = ctx.newRestfulGenericClient(serverBase);
+		ctx.getRestfulClientFactory().setConnectionRequestTimeout(1000000);
 
-		// We'll populate this list
-		List<IBaseResource> healthcareServices = new ArrayList<>();
+		ctx.getRestfulClientFactory().setSocketTimeout(100000000);
+
+		IGenericClient client = ctx.newRestfulGenericClient(serverBase);
 
 		new Include("*");
 		// We'll do a search for all Patients and extract the first page
 		Bundle bundle = client.search().forResource(HealthcareService.class).returnBundle(Bundle.class).execute();
-		healthcareServices.addAll(BundleUtil.toListOfResources(ctx, bundle));
-		// Create a FHIR context
-		// FhirContext ctx = FhirContext.forR4();
 
-		// Instantiate a new parser
+		serializeResult("testSearchHealthCareServices", parser.setPrettyPrint(true).encodeResourceToString(bundle));
+		// validate(ctx, bundle);
+
+	}
+
+	@Test
+	void testGetHealthCareServices() throws Exception {
+
+		// Create a context and a client
+		FhirContext ctx = FhirContext.forR4();
 		IParser parser = ctx.newJsonParser();
-		for (IBaseResource resoure : healthcareServices) {
-			System.out.println(parser.setPrettyPrint(true).encodeResourceToString(resoure));
+
+		ctx.getRestfulClientFactory().setConnectTimeout(1000000);
+		// There might be a better way to get the current url
+		String serverBase = template.getRootUri() + "/fhir/";
+
+		ctx.getRestfulClientFactory().setConnectionRequestTimeout(1000000);
+
+		ctx.getRestfulClientFactory().setSocketTimeout(100000000);
+
+		IGenericClient client = ctx.newRestfulGenericClient(serverBase);
+
+		serializeResult(
+			"testGetHealthCareServices", parser.setPrettyPrint(true).encodeResourceToString(
+				client.read().resource(HealthcareService.class).withId("4").execute()));
+		// validate(ctx, bundle);
+
+	}
+
+	@Test
+	void testSearchHealthCareServicesWithInclude() throws Exception {
+
+		// Create a context and a client
+		FhirContext ctx = FhirContext.forR4();
+		IParser parser = ctx.newJsonParser();
+
+		ctx.getRestfulClientFactory().setConnectTimeout(1000000);
+		ctx.getRestfulClientFactory().setConnectionRequestTimeout(1000000);
+		ctx.getRestfulClientFactory().setSocketTimeout(100000000);
+
+		String serverBase = template.getRootUri() + "/fhir/";
+
+		IGenericClient client = ctx.newRestfulGenericClient(serverBase);
+
+		new Include("*");
+
+		// Map<String, List<String>> includes = new HashMap<String, List<String>>();
+		// includes.put("_include", null);
+		//
+		client.search().byUrl(serverBase);
+
+		Bundle bundle = client.search().byUrl("HealthcareService?_include=*").returnBundle(Bundle.class).execute();
+
+		// Bundle bundle = client.search().forResource(HealthcareService.class).whereMap(includes).returnBundle(
+		// Bundle.class).execute();
+
+		serializeResult(
+			"testSearchHealthCareServicesWithInclude", parser.setPrettyPrint(true).encodeResourceToString(bundle));
+		// validate(ctx, bundle);
+
+	}
+
+	void serializeResult(String test, String result) throws IOException {
+		// Path sourcePath = Paths.get(test);
+		String testName = test;
+
+		Path testPath = Paths.get("target/test-output/" + testName);
+		if (!Files.exists(testPath)) {
+			Files.createDirectories(testPath);
 		}
 
+		Path path = Paths.get("target/test-output/" + testName + "/" + testName + ".json");
+		byte[] strToBytes = result.getBytes();
+
+		Files.write(path, strToBytes);
 	}
 
 }

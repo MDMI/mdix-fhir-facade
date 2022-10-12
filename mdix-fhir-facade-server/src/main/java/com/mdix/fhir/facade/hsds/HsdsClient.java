@@ -14,6 +14,7 @@ package com.mdix.fhir.facade.hsds;
 import java.io.IOException;
 import java.util.Calendar;
 import java.util.HashMap;
+import java.util.concurrent.TimeUnit;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -34,12 +35,12 @@ import okhttp3.Response;
 @Component
 public class HsdsClient {
 
+	Calendar calendar;
+
 	@Autowired
 	HsdsSettings hsdsSettings;
 
 	String accessToken = null;
-
-	Calendar calendar;
 
 	private String getAccessToken() throws IOException {
 		OkHttpClient client = new OkHttpClient().newBuilder().build();
@@ -54,9 +55,11 @@ public class HsdsClient {
 
 		HashMap responseMap = new ObjectMapper().readValue(response.body().byteStream(), HashMap.class);
 		String accessToken = (String) responseMap.get("access_token");
+
 		int seconds = (int) responseMap.get("expires_in");
 		calendar = Calendar.getInstance();
 		calendar.add(Calendar.SECOND, seconds);
+
 		return accessToken;
 
 	}
@@ -71,6 +74,25 @@ public class HsdsClient {
 		Request request = new Request.Builder().url(hsdsSettings.getDirectoryUrl() + resource + "/complete").method(
 			"GET", null).addHeader("accept", "application/json").addHeader(
 				"x-api-key", hsdsSettings.getxApiKey()).addHeader("Authorization", "Bearer " + accessToken).build();
+
+		Response response = client.newCall(request).execute();
+		String hsds = response.body().string();
+		return hsds;
+
+	}
+
+	public String executeGet(String reference) throws IOException {
+		Calendar now = Calendar.getInstance();
+		if (accessToken == null || now.after(calendar)) {
+			accessToken = this.getAccessToken();
+		}
+		String resource[] = reference.split("/");
+
+		OkHttpClient client = new OkHttpClient().newBuilder().readTimeout(500, TimeUnit.SECONDS).build();
+		Request request = new Request.Builder().url(
+			hsdsSettings.getDirectoryUrl() + resource[0].toLowerCase() + "s/complete/" + resource[1]).method(
+				"GET", null).addHeader("accept", "application/json").addHeader(
+					"x-api-key", hsdsSettings.getxApiKey()).addHeader("Authorization", "Bearer " + accessToken).build();
 
 		Response response = client.newCall(request).execute();
 		String hsds = response.body().string();

@@ -1,14 +1,19 @@
 package com.mdix.fhir.facade.provider;
 
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 
 import javax.servlet.ServletContext;
 
 import org.hl7.fhir.r4.model.Bundle;
-import org.hl7.fhir.r4.model.Bundle.BundleEntryComponent;
+import org.hl7.fhir.r4.model.DomainResource;
 import org.hl7.fhir.r4.model.HealthcareService;
 import org.hl7.fhir.r4.model.IdType;
+import org.hl7.fhir.r4.model.Location;
+import org.hl7.fhir.r4.model.Organization;
+import org.hl7.fhir.r4.model.Reference;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -21,9 +26,7 @@ import ca.uhn.fhir.rest.annotation.IdParam;
 import ca.uhn.fhir.rest.annotation.OptionalParam;
 import ca.uhn.fhir.rest.annotation.Read;
 import ca.uhn.fhir.rest.annotation.Search;
-import ca.uhn.fhir.rest.param.TokenParam;
 import ca.uhn.fhir.rest.server.IResourceProvider;
-import ca.uhn.fhir.rest.server.exceptions.ResourceNotFoundException;
 import ca.uhn.fhir.util.BundleUtil;
 
 /**
@@ -66,44 +69,79 @@ public class HSDSHealthcareServiceResourceProvider extends MDMIProvider implemen
 	 * @param theId
 	 *            The read operation takes one parameter, which must be of type IdDt and must be annotated with the "@Read.IdParam" annotation.
 	 * @return Returns a resource matching this identifier, or null if none exists.
+	 * @throws Exception
+	 * @throws IOException
 	 */
 	@Read()
-	public HealthcareService getResourceById(@IdParam IdType theId) {
-
-		/*
-		 * We only support one organization, so the follwing
-		 * exception causes an HTTP 404 response if the
-		 * ID of "1" isn't used.
-		 */
-		if (!"1".equals(theId.getValue())) {
-			throw new ResourceNotFoundException(theId);
-		}
-		HealthcareService retVal = new HealthcareService();
-
-		return retVal;
+	public HealthcareService getResourceById(@IdParam IdType theId) throws IOException, Exception {
+		FhirContext ctx = FhirContext.forR4();
+		IParser parser = ctx.newJsonParser();
+		String healthcareServiceResult = runTransformation(
+			"HSDSJSON.ServicesComplete",
+			this.hsdsClient.executeGet(theId.getValue().replace("HealthcareService", "service")),
+			"FHIRR4JSON.MasterBundle");
+		Bundle healthcareServiceBundle = parser.parseResource(Bundle.class, healthcareServiceResult);
+		List<HealthcareService> healthcareServices = BundleUtil.toListOfResourcesOfType(
+			ctx, healthcareServiceBundle, HealthcareService.class);
+		return healthcareServices.get(0);
 	}
 
 	@Search()
-	public List<HealthcareService> searchHealthcareService(
+	public List<DomainResource> searchHealthcareService(
 
-			@OptionalParam(name = HealthcareService.SP_ACTIVE) TokenParam active,
 			@OptionalParam(name = HealthcareService.SP_PROGRAM) String program,
 			@OptionalParam(name = HealthcareService.SP_SERVICE_TYPE) String service_type,
 			@OptionalParam(name = "availableTime.daysOfWeek") String availableTime_daysOfWeek,
-			@OptionalParam(name = "coverageArea.zip") String coverageArea_zip,
+			@OptionalParam(name = Location.SP_ADDRESS_POSTALCODE) String coverageArea_zip,
+			@OptionalParam(name = Location.SP_ADDRESS_STATE) String coverageArea_state,
 			@OptionalParam(name = "communication") String communication,
-
-			@OptionalParam(name = HealthcareService.SP_CHARACTERISTIC) TokenParam characteristic,
-			@OptionalParam(name = HealthcareService.SP_SERVICE_CATEGORY) String coverageArea,
+			@OptionalParam(name = HealthcareService.SP_SERVICE_CATEGORY) String category,
 			@OptionalParam(name = "_include") String _include) throws Exception {
 		String hsds = this.hsdsClient.executeQuery("services");
 		String result = runTransformation("HSDSJSON.ServicesComplete", hsds, "FHIRR4JSON.MasterBundle");
 		FhirContext ctx = FhirContext.forR4();
 		IParser parser = ctx.newJsonParser();
 		Bundle bundle = parser.parseResource(Bundle.class, result);
-		List<BundleEntryComponent> entries = bundle.getEntry();
-		List<HealthcareService> retVal = new ArrayList<>();
-		retVal.addAll(BundleUtil.toListOfResourcesOfType(ctx, bundle, HealthcareService.class));
+		List<DomainResource> retVal = new ArrayList<>();
+		List<HealthcareService> services = BundleUtil.toListOfResourcesOfType(ctx, bundle, HealthcareService.class);
+		HashSet<String> references = new HashSet<>();
+
+		retVal.addAll(services);
+		if (_include != null) {
+			try {
+				for (HealthcareService service : services) {
+					for (Reference location : service.getLocation()) {
+						references.add(location.getReference());
+					}
+					if (service.hasProvidedBy()) {
+						Reference organization = service.getProvidedBy();
+						references.add(organization.getReference());
+					}
+				}
+
+				for (String reference : references) {
+					if (_include.equals("*") && reference.startsWith("Organization")) {
+						String organizationResult = runTransformation(
+							"HSDSJSON.OrganizationComplete", this.hsdsClient.executeGet(reference),
+							"FHIRR4JSON.MasterBundle");
+						Bundle organizationBundle = parser.parseResource(Bundle.class, organizationResult);
+						retVal.addAll(BundleUtil.toListOfResourcesOfType(ctx, organizationBundle, Organization.class));
+					}
+					if (_include.equals("*") || reference.contains("Location")) {
+						String locationResult = runTransformation(
+							"HSDSJSON.LocationComplete", this.hsdsClient.executeGet(reference),
+							"FHIRR4JSON.MasterBundle");
+						Bundle organizationBundle = parser.parseResource(Bundle.class, locationResult);
+						retVal.addAll(BundleUtil.toListOfResourcesOfType(ctx, organizationBundle, Location.class));
+					}
+
+				}
+			} catch (Throwable exception) {
+				System.err.println(exception.getMessage());
+			}
+
+		}
+
 		return retVal;
 	}
 

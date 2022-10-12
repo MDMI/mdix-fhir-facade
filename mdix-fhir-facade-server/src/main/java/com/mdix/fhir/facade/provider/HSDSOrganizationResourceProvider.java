@@ -1,5 +1,6 @@
 package com.mdix.fhir.facade.provider;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -27,7 +28,6 @@ import ca.uhn.fhir.rest.annotation.Read;
 import ca.uhn.fhir.rest.annotation.Search;
 import ca.uhn.fhir.rest.param.TokenParam;
 import ca.uhn.fhir.rest.server.IResourceProvider;
-import ca.uhn.fhir.rest.server.exceptions.ResourceNotFoundException;
 import ca.uhn.fhir.util.BundleUtil;
 
 /**
@@ -78,31 +78,27 @@ public class HSDSOrganizationResourceProvider extends MDMIProvider implements IR
 	 * @param theId
 	 *            The read operation takes one parameter, which must be of type IdDt and must be annotated with the "@Read.IdParam" annotation.
 	 * @return Returns a resource matching this identifier, or null if none exists.
+	 * @throws Exception
+	 * @throws IOException
 	 */
 	@Read()
-	public Organization getResourceById(@IdParam IdType theId) {
-
-		/*
-		 * We only support one organization, so the follwing
-		 * exception causes an HTTP 404 response if the
-		 * ID of "1" isn't used.
-		 */
-		if (!"1".equals(theId.getValue())) {
-			throw new ResourceNotFoundException(theId);
-		}
-
-		Organization retVal = new Organization();
-		retVal.setId("1");
-		retVal.addIdentifier().setSystem("urn:example:orgs").setValue("FooOrganization");
-		retVal.addAddress().addLine("123 Fake Street").setCity("Toronto");
-
-		return retVal;
+	public Organization getResourceById(@IdParam IdType theId) throws IOException, Exception {
+		FhirContext ctx = FhirContext.forR4();
+		IParser parser = ctx.newJsonParser();
+		String organizationeResult = runTransformation(
+			"HSDSJSON.OrganizationComplete",
+			this.hsdsClient.executeGet(theId.getValue().replace("HealthcareService", "organization")),
+			"FHIRR4JSON.MasterBundle");
+		Bundle organizationBundle = parser.parseResource(Bundle.class, organizationeResult);
+		List<Organization> organizations = BundleUtil.toListOfResourcesOfType(
+			ctx, organizationBundle, Organization.class);
+		return organizations.get(0);
 	}
 
 	@Search()
 	public List<Organization> searchOrganization(@OptionalParam(name = HealthcareService.SP_ACTIVE) TokenParam active,
-			@OptionalParam(name = HealthcareService.SP_CHARACTERISTIC) TokenParam characteristic,
-			@OptionalParam(name = HealthcareService.SP_COVERAGE_AREA) String coverageArea) throws Exception {
+			@OptionalParam(name = HealthcareService.SP_PROGRAM) String program,
+			@OptionalParam(name = Organization.SP_ADDRESS_POSTALCODE) String postalCode) throws Exception {
 		String hsds = this.hsdsClient.executeQuery("organizations");
 		String result = runTransformation("HSDSJSON.OrganizationComplete", hsds, "FHIRR4JSON.MasterBundle");
 		FhirContext ctx = FhirContext.forR4();

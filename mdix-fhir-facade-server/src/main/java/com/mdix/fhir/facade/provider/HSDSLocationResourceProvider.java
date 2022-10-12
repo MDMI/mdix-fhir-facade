@@ -1,5 +1,6 @@
 package com.mdix.fhir.facade.provider;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -8,7 +9,6 @@ import java.util.Properties;
 import javax.servlet.ServletContext;
 
 import org.hl7.fhir.r4.model.Bundle;
-import org.hl7.fhir.r4.model.HealthcareService;
 import org.hl7.fhir.r4.model.IdType;
 import org.hl7.fhir.r4.model.Location;
 import org.slf4j.Logger;
@@ -24,9 +24,7 @@ import ca.uhn.fhir.rest.annotation.IdParam;
 import ca.uhn.fhir.rest.annotation.OptionalParam;
 import ca.uhn.fhir.rest.annotation.Read;
 import ca.uhn.fhir.rest.annotation.Search;
-import ca.uhn.fhir.rest.param.TokenParam;
 import ca.uhn.fhir.rest.server.IResourceProvider;
-import ca.uhn.fhir.rest.server.exceptions.ResourceNotFoundException;
 import ca.uhn.fhir.util.BundleUtil;
 
 /**
@@ -77,28 +75,28 @@ public class HSDSLocationResourceProvider extends MDMIProvider implements IResou
 	 * @param theId
 	 *            The read operation takes one parameter, which must be of type IdDt and must be annotated with the "@Read.IdParam" annotation.
 	 * @return Returns a resource matching this identifier, or null if none exists.
+	 * @throws Exception
+	 * @throws IOException
 	 */
 	@Read()
-	public Location getResourceById(@IdParam IdType theId) {
-
-		/*
-		 * We only support one organization, so the follwing
-		 * exception causes an HTTP 404 response if the
-		 * ID of "1" isn't used.
-		 */
-		if (!"1".equals(theId.getValue())) {
-			throw new ResourceNotFoundException(theId);
-		}
-
-		Location retVal = new Location();
-
-		return retVal;
+	public Location getResourceById(@IdParam IdType theId) throws IOException, Exception {
+		FhirContext ctx = FhirContext.forR4();
+		IParser parser = ctx.newJsonParser();
+		String healthcareServiceResult = runTransformation(
+			"HSDSJSON.LocationComplete",
+			this.hsdsClient.executeGet(theId.getValue().replace("HealthcareService", "location")),
+			"FHIRR4JSON.MasterBundle");
+		Bundle locationBundle = parser.parseResource(Bundle.class, healthcareServiceResult);
+		List<Location> locations = BundleUtil.toListOfResourcesOfType(ctx, locationBundle, Location.class);
+		return locations.get(0);
 	}
 
 	@Search()
-	public List<Location> searchLocation(@OptionalParam(name = HealthcareService.SP_ACTIVE) TokenParam active,
-			@OptionalParam(name = HealthcareService.SP_CHARACTERISTIC) TokenParam characteristic,
-			@OptionalParam(name = HealthcareService.SP_COVERAGE_AREA) String coverageArea) throws Exception {
+	public List<Location> searchLocation(@OptionalParam(name = Location.SP_ADDRESS_POSTALCODE) String active,
+			@OptionalParam(name = Location.SP_NAME) String name,
+			@OptionalParam(name = "hoursofoperation") String hoursofoperation,
+			@OptionalParam(name = Location.SP_ADDRESS_STATE) String addressState,
+			@OptionalParam(name = "language") String language) throws Exception {
 
 		String hsds = this.hsdsClient.executeQuery("locations");
 		String result = runTransformation("HSDSJSON.LocationComplete", hsds, "FHIRR4JSON.MasterBundle");

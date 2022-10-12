@@ -1,5 +1,9 @@
 package com.mdix.fhir.facade.test;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
@@ -30,6 +34,30 @@ class TestLocation {
 	private TestRestTemplate template;
 
 	String testStr = null;
+
+	@Test
+	void testGetLocation() throws Exception {
+
+		// Create a context and a client
+		FhirContext ctx = FhirContext.forR4();
+		IParser parser = ctx.newJsonParser();
+
+		ctx.getRestfulClientFactory().setConnectTimeout(1000000);
+		// There might be a better way to get the current url
+		String serverBase = template.getRootUri() + "/fhir/";
+
+		ctx.getRestfulClientFactory().setConnectionRequestTimeout(1000000);
+
+		ctx.getRestfulClientFactory().setSocketTimeout(100000000);
+
+		IGenericClient client = ctx.newRestfulGenericClient(serverBase);
+
+		serializeResult(
+			"testGetHealthCareServices", parser.setPrettyPrint(true).encodeResourceToString(
+				client.read().resource(Location.class).withId("972").execute()));
+		// validate(ctx, bundle);
+
+	}
 
 	@Test
 	void testSearchLocation() {
@@ -75,6 +103,21 @@ class TestLocation {
 			return true;
 		} else
 			return false;
+	}
+
+	void serializeResult(String test, String result) throws IOException {
+		// Path sourcePath = Paths.get(test);
+		String testName = test;
+
+		Path testPath = Paths.get("target/test-output/" + testName);
+		if (!Files.exists(testPath)) {
+			Files.createDirectories(testPath);
+		}
+
+		Path path = Paths.get("target/test-output/" + testName + "/" + testName + ".json");
+		byte[] strToBytes = result.getBytes();
+
+		Files.write(path, strToBytes);
 	}
 
 }

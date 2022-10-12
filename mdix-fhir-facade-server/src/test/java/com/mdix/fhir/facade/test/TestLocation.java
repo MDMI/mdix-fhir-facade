@@ -1,6 +1,7 @@
 package com.mdix.fhir.facade.test;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 import org.hl7.fhir.instance.model.api.IBaseResource;
@@ -28,6 +29,8 @@ class TestLocation {
 	@Autowired
 	private TestRestTemplate template;
 
+	String testStr = null;
+
 	@Test
 	void testSearchLocation() {
 		// Create a context and a client
@@ -49,6 +52,29 @@ class TestLocation {
 			System.out.println(parser.setPrettyPrint(true).encodeResourceToString(resoure));
 		}
 
+	}
+
+	@Test
+	void testToken() throws InterruptedException {
+		Calendar calendar = Calendar.getInstance();
+		calendar.add(Calendar.SECOND, 2);
+		testStr = "TEST";
+		int i = 0;
+		do {
+			System.out.println("print" + i + " :: " + testStr);
+			Thread.sleep(1000);
+			i++;
+		} while (!callMethod(calendar));
+		System.out.println("print" + i + " :: " + testStr);
+	}
+
+	boolean callMethod(Calendar cal) {
+		Calendar now = Calendar.getInstance();
+		if (now.after(cal)) {
+			testStr = null;
+			return true;
+		} else
+			return false;
 	}
 
 }

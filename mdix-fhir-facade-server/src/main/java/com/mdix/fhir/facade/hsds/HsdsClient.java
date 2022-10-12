@@ -12,6 +12,7 @@
 package com.mdix.fhir.facade.hsds;
 
 import java.io.IOException;
+import java.util.Calendar;
 import java.util.HashMap;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,6 +39,8 @@ public class HsdsClient {
 
 	String accessToken = null;
 
+	Calendar calendar;
+
 	private String getAccessToken() throws IOException {
 		OkHttpClient client = new OkHttpClient().newBuilder().build();
 		MediaType mediaType = MediaType.parse("application/x-www-form-urlencoded");
@@ -51,12 +54,16 @@ public class HsdsClient {
 
 		HashMap responseMap = new ObjectMapper().readValue(response.body().byteStream(), HashMap.class);
 		String accessToken = (String) responseMap.get("access_token");
+		int seconds = (int) responseMap.get("expires_in");
+		calendar = Calendar.getInstance();
+		calendar.add(Calendar.SECOND, seconds);
 		return accessToken;
 
 	}
 
 	public String executeQuery(String resource) throws IOException {
-		if (accessToken == null) {
+		Calendar now = Calendar.getInstance();
+		if (accessToken == null || now.after(calendar)) {
 			accessToken = this.getAccessToken();
 		}
 

@@ -68,7 +68,7 @@ public class HsdsClient {
 		}
 
 		OkHttpClient client = new OkHttpClient().newBuilder().build();
-		Request request = new Request.Builder().url(hsdsSettings.getDirectoryUrl() + resource).method(
+		Request request = new Request.Builder().url(hsdsSettings.getDirectoryUrl() + resource + "/complete").method(
 			"GET", null).addHeader("accept", "application/json").addHeader(
 				"x-api-key", hsdsSettings.getxApiKey()).addHeader("Authorization", "Bearer " + accessToken).build();
 

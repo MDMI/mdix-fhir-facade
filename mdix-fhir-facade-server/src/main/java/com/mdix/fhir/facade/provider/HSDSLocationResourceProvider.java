@@ -8,9 +8,12 @@ import java.util.Properties;
 
 import javax.servlet.ServletContext;
 
+import org.apache.commons.lang3.StringUtils;
 import org.hl7.fhir.r4.model.Bundle;
 import org.hl7.fhir.r4.model.IdType;
 import org.hl7.fhir.r4.model.Location;
+import org.json.JSONArray;
+import org.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,6 +41,16 @@ import ca.uhn.fhir.util.BundleUtil;
 public class HSDSLocationResourceProvider extends MDMIProvider implements IResourceProvider {
 
 	HsdsClient hsdsClient;
+
+	private void addTableField(JSONObject json, JSONObject query) {
+		if (!json.has("$table.field")) {
+			JSONArray array = new JSONArray();
+			json.put("$table.field", array);
+		}
+		JSONArray array = (JSONArray) json.get("$table.field");
+		array.put(query);
+
+	}
 
 	/**
 	 * @param context
@@ -92,13 +105,35 @@ public class HSDSLocationResourceProvider extends MDMIProvider implements IResou
 	}
 
 	@Search()
-	public List<Location> searchLocation(@OptionalParam(name = Location.SP_ADDRESS_POSTALCODE) String active,
+	public List<Location> searchLocation(@OptionalParam(name = Location.SP_ADDRESS_POSTALCODE) String postalCode,
 			@OptionalParam(name = Location.SP_NAME) String name,
 			@OptionalParam(name = "hoursofoperation") String hoursofoperation,
-			@OptionalParam(name = Location.SP_ADDRESS_STATE) String addressState,
+			@OptionalParam(name = Location.SP_ADDRESS_STATE) String state,
 			@OptionalParam(name = "language") String language) throws Exception {
 
-		String hsds = this.hsdsClient.executeQuery("locations");
+		JSONObject json = new JSONObject();
+
+		if (!StringUtils.isEmpty(name)) {
+			JSONObject nameQuery = new JSONObject();
+			nameQuery.put("$like", name);
+			json.put("name", nameQuery);
+		}
+
+		if (!StringUtils.isEmpty(state)) {
+
+			JSONObject stateQuery = new JSONObject();
+			stateQuery.put("physical_address.state_province", state);
+			addTableField(json, stateQuery);
+		}
+
+		if (!StringUtils.isEmpty(postalCode)) {
+
+			JSONObject postalCodeQuery = new JSONObject();
+			postalCodeQuery.put("physical_address.postal_code", postalCode);
+			addTableField(json, postalCodeQuery);
+		}
+
+		String hsds = this.hsdsClient.executeQuery("locations", json);
 		String result = runTransformation("HSDSJSON.LocationComplete", hsds, "FHIRR4JSON.MasterBundle");
 		FhirContext ctx = FhirContext.forR4();
 		IParser parser = ctx.newJsonParser();

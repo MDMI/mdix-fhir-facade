@@ -12,10 +12,14 @@
 package com.mdix.fhir.facade.hsds;
 
 import java.io.IOException;
+import java.net.URLDecoder;
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.concurrent.TimeUnit;
 
+import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -64,19 +68,36 @@ public class HsdsClient {
 
 	}
 
-	public String executeQuery(String resource) throws IOException {
+	public String executeQuery(String resource, JSONObject json) throws IOException {
 		Calendar now = Calendar.getInstance();
 		if (accessToken == null || now.after(calendar)) {
 			accessToken = this.getAccessToken();
 		}
 
+		String queryParemeter = null;
+		if (!json.isEmpty()) {
+
+			// Gson gson = new GsonBuilder().create();
+			// String jsonString = gson.toJson(json);
+			// System.out.println("JSON " + jsonString);
+			queryParemeter = "?query=" + URLEncoder.encode(json.toString(), StandardCharsets.UTF_8.toString());
+			// queryParemeter = "?query=%7B%22name%22%20%3A%20%7B%22%24like%22%20%3A%20%22CHILDREN'S%22%7D%7D";
+
+			System.out.println(URLDecoder.decode(queryParemeter));
+
+		}
+
 		OkHttpClient client = new OkHttpClient().newBuilder().build();
-		Request request = new Request.Builder().url(hsdsSettings.getDirectoryUrl() + resource + "/complete").method(
-			"GET", null).addHeader("accept", "application/json").addHeader(
-				"x-api-key", hsdsSettings.getxApiKey()).addHeader("Authorization", "Bearer " + accessToken).build();
+		Request request = new Request.Builder().url(
+			hsdsSettings.getDirectoryUrl() + resource + "/complete" + (queryParemeter != null
+					? queryParemeter
+					: "")).method("GET", null).addHeader("accept", "application/json").addHeader(
+						"x-api-key", hsdsSettings.getxApiKey()).addHeader(
+							"Authorization", "Bearer " + accessToken).build();
 
 		Response response = client.newCall(request).execute();
 		String hsds = response.body().string();
+		System.err.println(hsds);
 		return hsds;
 
 	}

@@ -7,6 +7,7 @@ import java.util.List;
 
 import javax.servlet.ServletContext;
 
+import org.apache.commons.lang3.StringUtils;
 import org.hl7.fhir.r4.model.Bundle;
 import org.hl7.fhir.r4.model.DomainResource;
 import org.hl7.fhir.r4.model.HealthcareService;
@@ -14,6 +15,8 @@ import org.hl7.fhir.r4.model.IdType;
 import org.hl7.fhir.r4.model.Location;
 import org.hl7.fhir.r4.model.Organization;
 import org.hl7.fhir.r4.model.Reference;
+import org.json.JSONArray;
+import org.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -86,18 +89,74 @@ public class HSDSHealthcareServiceResourceProvider extends MDMIProvider implemen
 		return healthcareServices.get(0);
 	}
 
-	@Search()
-	public List<DomainResource> searchHealthcareService(
+	private void addTableField(JSONObject json, JSONObject query) {
+		if (!json.has("$table.field")) {
+			JSONArray array = new JSONArray();
+			json.put("$table.field", array);
+		}
+		JSONArray array = (JSONArray) json.get("$table.field");
+		array.put(query);
 
+	}
+
+	@Search()
+	public List<DomainResource> searchHealthcareService(@OptionalParam(name = HealthcareService.SP_NAME) String name,
 			@OptionalParam(name = HealthcareService.SP_PROGRAM) String program,
 			@OptionalParam(name = HealthcareService.SP_SERVICE_TYPE) String service_type,
 			@OptionalParam(name = "availableTime.daysOfWeek") String availableTime_daysOfWeek,
-			@OptionalParam(name = Location.SP_ADDRESS_POSTALCODE) String coverageArea_zip,
-			@OptionalParam(name = Location.SP_ADDRESS_STATE) String coverageArea_state,
+			@OptionalParam(name = Location.SP_ADDRESS_POSTALCODE) String postalCode,
+			@OptionalParam(name = Location.SP_ADDRESS_STATE) String state,
 			@OptionalParam(name = "communication") String communication,
+			@OptionalParam(name = "accessibility") String accessibility,
 			@OptionalParam(name = HealthcareService.SP_SERVICE_CATEGORY) String category,
 			@OptionalParam(name = "_include") String _include) throws Exception {
-		String hsds = this.hsdsClient.executeQuery("services");
+
+		JSONObject json = new JSONObject();
+		if (!StringUtils.isEmpty(state)) {
+			JSONArray array = new JSONArray();
+			JSONObject stateQuery = new JSONObject();
+			stateQuery.put("physical_address.state_province", state);
+			array.put(stateQuery);
+			json.put("$table.field", array);
+		}
+
+		if (!StringUtils.isEmpty(postalCode)) {
+			JSONObject postalCodeQuery = new JSONObject();
+			postalCodeQuery.put("physical_address.postal_code", postalCode);
+			addTableField(json, postalCodeQuery);
+		}
+
+		if (!StringUtils.isEmpty(service_type)) {
+
+			JSONObject serviceTypeQuery = new JSONObject();
+			serviceTypeQuery.put("service_taxonomy.taxonomy_detail", service_type);
+			addTableField(json, serviceTypeQuery);
+		}
+
+		if (!StringUtils.isEmpty(category)) {
+
+			JSONObject categoryTypeQuery = new JSONObject();
+			categoryTypeQuery.put("service_taxonomy.category", category);
+			addTableField(json, categoryTypeQuery);
+		}
+
+		if (!StringUtils.isEmpty(name)) {
+			JSONObject nameQuery = new JSONObject();
+			nameQuery.put("$like", name);
+			json.put("name", nameQuery);
+		}
+
+		if (!StringUtils.isEmpty(communication)) {
+			json.put("language", communication);
+		}
+
+		if (!StringUtils.isEmpty(accessibility)) {
+			JSONObject accessibilityTypeQuery = new JSONObject();
+			accessibilityTypeQuery.put("location.accessibility_for_disabilities", accessibility);
+			addTableField(json, accessibilityTypeQuery);
+		}
+
+		String hsds = this.hsdsClient.executeQuery("services", json);
 		String result = runTransformation("HSDSJSON.ServicesComplete", hsds, "FHIRR4JSON.MasterBundle");
 		FhirContext ctx = FhirContext.forR4();
 		IParser parser = ctx.newJsonParser();

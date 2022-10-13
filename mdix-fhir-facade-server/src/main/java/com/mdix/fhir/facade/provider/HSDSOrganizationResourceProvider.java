@@ -8,11 +8,13 @@ import java.util.Properties;
 
 import javax.servlet.ServletContext;
 
+import org.apache.commons.lang3.StringUtils;
 import org.hl7.fhir.r4.model.Bundle;
 import org.hl7.fhir.r4.model.Bundle.BundleEntryComponent;
-import org.hl7.fhir.r4.model.HealthcareService;
 import org.hl7.fhir.r4.model.IdType;
 import org.hl7.fhir.r4.model.Organization;
+import org.json.JSONArray;
+import org.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,7 +28,6 @@ import ca.uhn.fhir.rest.annotation.IdParam;
 import ca.uhn.fhir.rest.annotation.OptionalParam;
 import ca.uhn.fhir.rest.annotation.Read;
 import ca.uhn.fhir.rest.annotation.Search;
-import ca.uhn.fhir.rest.param.TokenParam;
 import ca.uhn.fhir.rest.server.IResourceProvider;
 import ca.uhn.fhir.util.BundleUtil;
 
@@ -95,11 +96,34 @@ public class HSDSOrganizationResourceProvider extends MDMIProvider implements IR
 		return organizations.get(0);
 	}
 
+	private void addTableField(JSONObject json, JSONObject query) {
+		if (!json.has("$table.field")) {
+			JSONArray array = new JSONArray();
+			json.put("$table.field", array);
+		}
+		JSONArray array = (JSONArray) json.get("$table.field");
+		array.put(query);
+
+	}
+
+	/*
+	 * "detail":
+	 * "Key '0' is not a field for table 'organization'. Valid fields: 'id,name,alternate_name,organization_type,source_id,source,description,email,url,tax_status,tax_id,year_incorporated,legal_status,contact,region'"
+	 * ,
+	 */
 	@Search()
-	public List<Organization> searchOrganization(@OptionalParam(name = HealthcareService.SP_ACTIVE) TokenParam active,
-			@OptionalParam(name = HealthcareService.SP_PROGRAM) String program,
+	public List<Organization> searchOrganization(@OptionalParam(name = Organization.SP_NAME) String name,
 			@OptionalParam(name = Organization.SP_ADDRESS_POSTALCODE) String postalCode) throws Exception {
-		String hsds = this.hsdsClient.executeQuery("organizations");
+
+		JSONObject json = new JSONObject();
+		if (!StringUtils.isEmpty(name)) {
+			json = new JSONObject();
+			JSONObject nameQuery = new JSONObject();
+			nameQuery.put("$like", name);
+			json.put("name", nameQuery);
+		}
+
+		String hsds = this.hsdsClient.executeQuery("organizations", json);
 		String result = runTransformation("HSDSJSON.OrganizationComplete", hsds, "FHIRR4JSON.MasterBundle");
 		FhirContext ctx = FhirContext.forR4();
 		IParser parser = ctx.newJsonParser();

@@ -6,7 +6,9 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.hl7.fhir.instance.model.api.IBaseResource;
 import org.hl7.fhir.r4.model.Bundle;
@@ -22,6 +24,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 import com.mdix.fhir.facade.Application;
 
 import ca.uhn.fhir.context.FhirContext;
+import ca.uhn.fhir.parser.DataFormatException;
 import ca.uhn.fhir.parser.IParser;
 import ca.uhn.fhir.rest.client.api.IGenericClient;
 import ca.uhn.fhir.util.BundleUtil;
@@ -70,17 +73,86 @@ class TestLocation {
 		IGenericClient client = ctx.newRestfulGenericClient(serverBase);
 
 		// We'll populate this list
-		List<IBaseResource> organizations = new ArrayList<>();
+		List<IBaseResource> locations = new ArrayList<>();
 
 		// We'll do a search for all Patients and extract the first page
 		Bundle bundle = client.search().forResource(Location.class).returnBundle(Bundle.class).execute();
-		organizations.addAll(BundleUtil.toListOfResources(ctx, bundle));
+		locations.addAll(BundleUtil.toListOfResources(ctx, bundle));
 		IParser parser = ctx.newJsonParser();
-		for (IBaseResource resoure : organizations) {
+		for (IBaseResource resoure : locations) {
 			System.out.println(parser.setPrettyPrint(true).encodeResourceToString(resoure));
 		}
 
 	}
+
+	@Test
+	void testSearchLocationByName() throws DataFormatException, IOException {
+		// Create a context and a client
+		FhirContext ctx = FhirContext.forR4();
+		IParser parser = ctx.newJsonParser();
+		ctx.getRestfulClientFactory().setSocketTimeout(200 * 1000);
+		// There might be a better way to get the current url
+		String serverBase = template.getRootUri() + "/fhir/";
+
+		IGenericClient client = ctx.newRestfulGenericClient(serverBase);
+
+		// We'll populate this list
+
+		Map<String, List<String>> query = new HashMap<String, List<String>>();
+		query.put(Location.SP_NAME, new ArrayList<String>());
+		query.get(Location.SP_NAME).add("CHILDREN");
+		Bundle bundle = client.search().forResource(Location.class).whereMap(query).returnBundle(
+			Bundle.class).execute();
+		serializeResult("testSearchLocationByName", parser.setPrettyPrint(true).encodeResourceToString(bundle));
+
+	}
+
+	@Test
+	void testSearchLocationByState() throws DataFormatException, IOException {
+		// Create a context and a client
+		FhirContext ctx = FhirContext.forR4();
+		IParser parser = ctx.newJsonParser();
+		ctx.getRestfulClientFactory().setSocketTimeout(200 * 1000);
+		// There might be a better way to get the current url
+		String serverBase = template.getRootUri() + "/fhir/";
+
+		IGenericClient client = ctx.newRestfulGenericClient(serverBase);
+
+		// We'll populate this list
+
+		Map<String, List<String>> query = new HashMap<String, List<String>>();
+		query.put(Location.SP_ADDRESS_STATE, new ArrayList<String>());
+		query.get(Location.SP_ADDRESS_STATE).add("MI");
+		Bundle bundle = client.search().forResource(Location.class).whereMap(query).returnBundle(
+			Bundle.class).execute();
+		serializeResult("testSearchLocationByState", parser.setPrettyPrint(true).encodeResourceToString(bundle));
+
+	}
+
+	@Test
+	void testSearchLocationByZip() throws DataFormatException, IOException {
+		// Create a context and a client
+		FhirContext ctx = FhirContext.forR4();
+		IParser parser = ctx.newJsonParser();
+		ctx.getRestfulClientFactory().setSocketTimeout(200 * 1000);
+		// There might be a better way to get the current url
+		String serverBase = template.getRootUri() + "/fhir/";
+
+		IGenericClient client = ctx.newRestfulGenericClient(serverBase);
+
+		// We'll populate this list
+
+		Map<String, List<String>> query = new HashMap<String, List<String>>();
+		query.put(Location.SP_ADDRESS_POSTALCODE, new ArrayList<String>());
+		query.get(Location.SP_ADDRESS_POSTALCODE).add("49085");
+		Bundle bundle = client.search().forResource(Location.class).whereMap(query).returnBundle(
+			Bundle.class).execute();
+		serializeResult("testSearchLocationByZip", parser.setPrettyPrint(true).encodeResourceToString(bundle));
+
+	}
+
+	// {"$table.field": [{"physical_address.state": "MI"}]}
+	// {"$table.field": [{"physical_address.postal_code": "49085"}]}
 
 	@Test
 	void testToken() throws InterruptedException {

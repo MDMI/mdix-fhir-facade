@@ -5,7 +5,9 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.hl7.fhir.instance.model.api.IBaseResource;
 import org.hl7.fhir.r4.model.Bundle;
@@ -71,6 +73,33 @@ class TestOrganization {
 
 		// We'll do a search for all Patients and extract the first page
 		Bundle bundle = client.search().forResource(Organization.class).returnBundle(Bundle.class).execute();
+		organizations.addAll(BundleUtil.toListOfResources(ctx, bundle));
+		IParser parser = ctx.newJsonParser();
+		for (IBaseResource resoure : organizations) {
+			System.out.println(parser.setPrettyPrint(true).encodeResourceToString(resoure));
+		}
+
+	}
+
+	@Test
+	void testSearchOrganizationByName() {
+		// Create a context and a client
+		FhirContext ctx = FhirContext.forR4();
+		ctx.getRestfulClientFactory().setSocketTimeout(200 * 1000);
+		// There might be a better way to get the current url
+		String serverBase = template.getRootUri() + "/fhir/";
+
+		IGenericClient client = ctx.newRestfulGenericClient(serverBase);
+
+		// We'll populate this list
+		List<IBaseResource> organizations = new ArrayList<>();
+
+		Map<String, List<String>> query = new HashMap<String, List<String>>();
+		query.put("name", new ArrayList<String>());
+		query.get("name").add("CHILDREN");
+		// We'll do a search for all Patients and extract the first page
+		Bundle bundle = client.search().forResource(Organization.class).whereMap(query).returnBundle(
+			Bundle.class).execute();
 		organizations.addAll(BundleUtil.toListOfResources(ctx, bundle));
 		IParser parser = ctx.newJsonParser();
 		for (IBaseResource resoure : organizations) {

@@ -23,7 +23,7 @@
 
 	<properties>
 		<hapi.fhir.version>6.1.1</hapi.fhir.version>
-		<mdmi.runtime.version>2.6.0-SNAPSHOT</mdmi.runtime.version>
+		<mdmi.runtime.version>2.6.1-SNAPSHOT</mdmi.runtime.version>
 	</properties>
 
 

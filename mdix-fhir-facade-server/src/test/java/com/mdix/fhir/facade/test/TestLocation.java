@@ -1,5 +1,7 @@
 package com.mdix.fhir.facade.test;
 
+import static org.junit.Assert.assertFalse;
+
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -148,6 +150,97 @@ class TestLocation {
 		Bundle bundle = client.search().forResource(Location.class).whereMap(query).returnBundle(
 			Bundle.class).execute();
 		serializeResult("testSearchLocationByZip", parser.setPrettyPrint(true).encodeResourceToString(bundle));
+
+	}
+
+	/*
+	 * Test 01 (LOC_TC01)
+	 * Query - Search for FHIR Locations with matching zipcode and part of the name 
+	 */
+	@Test
+	void testLOC_TC01() throws DataFormatException, IOException {
+		// Create a context and a client
+		FhirContext ctx = FhirContext.forR4();
+		IParser parser = ctx.newJsonParser();
+		ctx.getRestfulClientFactory().setSocketTimeout(200 * 1000);
+		// There might be a better way to get the current url
+		String serverBase = template.getRootUri() + "/fhir/";
+
+		IGenericClient client = ctx.newRestfulGenericClient(serverBase);
+
+		// We'll populate this list
+
+		Map<String, List<String>> query = new HashMap<String, List<String>>();
+		query.put(Location.SP_ADDRESS_POSTALCODE, new ArrayList<String>());
+		query.get(Location.SP_ADDRESS_POSTALCODE).add("49085");
+		query.put("name", new ArrayList<String>());
+		query.get("name").add("CHILDREN");
+		Bundle bundle = client.search().forResource(Location.class).whereMap(query).returnBundle(
+			Bundle.class).execute();
+		serializeResult("testLOC_TC01", parser.setPrettyPrint(true).encodeResourceToString(bundle));
+		assertFalse("testLOC_TC01", bundle.getEntry().isEmpty());
+
+	}
+
+	/*
+	 * Test 02 (LOC_TC02)
+	 * Query - Search for FHIR Locations with matching zipcode and day of operating hours. 
+	 *
+	 */
+	@Test
+	void testLOC_TC02() throws DataFormatException, IOException {
+		// Create a context and a client
+		FhirContext ctx = FhirContext.forR4();
+		IParser parser = ctx.newJsonParser();
+		ctx.getRestfulClientFactory().setSocketTimeout(200 * 1000);
+		// There might be a better way to get the current url
+		String serverBase = template.getRootUri() + "/fhir/";
+
+		IGenericClient client = ctx.newRestfulGenericClient(serverBase);
+
+		// We'll populate this list
+
+		Map<String, List<String>> query = new HashMap<String, List<String>>();
+		query.put(Location.SP_ADDRESS_POSTALCODE, new ArrayList<String>());
+		query.get(Location.SP_ADDRESS_POSTALCODE).add("49085");
+		query.put("hoursofoperation", new ArrayList<String>());
+		query.get("hoursofoperation").add("By appointment (sp)");
+
+		Bundle bundle = client.search().forResource(Location.class).whereMap(query).returnBundle(
+			Bundle.class).execute();
+		serializeResult("testLOC_TC02", parser.setPrettyPrint(true).encodeResourceToString(bundle));
+		assertFalse("testLOC_TC02", bundle.getEntry().isEmpty());
+
+	}
+
+	/*
+	 * Test 03 (LOC_TC03)
+	 * Query - Search for FHIR Locations with matching state code and language spoken 
+	 */
+
+	@Test
+	void testLOC_TC03() throws DataFormatException, IOException {
+		// Create a context and a client
+		FhirContext ctx = FhirContext.forR4();
+		IParser parser = ctx.newJsonParser();
+		ctx.getRestfulClientFactory().setSocketTimeout(200 * 1000);
+		// There might be a better way to get the current url
+		String serverBase = template.getRootUri() + "/fhir/";
+
+		IGenericClient client = ctx.newRestfulGenericClient(serverBase);
+
+		// We'll populate this list
+
+		Map<String, List<String>> query = new HashMap<String, List<String>>();
+		query.put(Location.SP_ADDRESS_STATE, new ArrayList<String>());
+		query.get(Location.SP_ADDRESS_STATE).add("MI");
+		query.put("language", new ArrayList<String>());
+		query.get("language").add("English");
+
+		Bundle bundle = client.search().forResource(Location.class).whereMap(query).returnBundle(
+			Bundle.class).execute();
+		serializeResult("testLOC_TC03", parser.setPrettyPrint(true).encodeResourceToString(bundle));
+		assertFalse("testLOC_TC03", bundle.getEntry().isEmpty());
 
 	}
 

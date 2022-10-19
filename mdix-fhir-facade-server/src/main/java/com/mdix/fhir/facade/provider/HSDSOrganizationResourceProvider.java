@@ -11,6 +11,7 @@ import javax.servlet.ServletContext;
 import org.apache.commons.lang3.StringUtils;
 import org.hl7.fhir.r4.model.Bundle;
 import org.hl7.fhir.r4.model.Bundle.BundleEntryComponent;
+import org.hl7.fhir.r4.model.HealthcareService;
 import org.hl7.fhir.r4.model.IdType;
 import org.hl7.fhir.r4.model.Organization;
 import org.json.JSONArray;
@@ -107,13 +108,23 @@ public class HSDSOrganizationResourceProvider extends MDMIProvider implements IR
 	}
 
 	/*
+	 * Organization
+	 * {"$table.field": [{"physical_address.postal_code": "49085"}]} - Results Returned, be sure that the table.field has quotes around it.
+	 * {"$table.field": [{"physical_address.state_province": "MI"}]}- Results Returned
+	 *
+	 */
+
+	/*
 	 * "detail":
 	 * "Key '0' is not a field for table 'organization'. Valid fields: 'id,name,alternate_name,organization_type,source_id,source,description,email,url,tax_status,tax_id,year_incorporated,legal_status,contact,region'"
 	 * ,
 	 */
 	@Search()
 	public List<Organization> searchOrganization(@OptionalParam(name = Organization.SP_NAME) String name,
-			@OptionalParam(name = Organization.SP_ADDRESS_POSTALCODE) String postalCode) throws Exception {
+			@OptionalParam(name = Organization.SP_ADDRESS_POSTALCODE) String postalCode,
+			@OptionalParam(name = Organization.SP_ADDRESS_STATE) String state,
+			@OptionalParam(name = HealthcareService.SP_SERVICE_CATEGORY) String category,
+			@OptionalParam(name = "communication") String communication) throws Exception {
 
 		JSONObject json = new JSONObject();
 		if (!StringUtils.isEmpty(name)) {
@@ -121,6 +132,29 @@ public class HSDSOrganizationResourceProvider extends MDMIProvider implements IR
 			JSONObject nameQuery = new JSONObject();
 			nameQuery.put("$like", name);
 			json.put("name", nameQuery);
+		}
+
+		if (!StringUtils.isEmpty(state)) {
+			JSONObject stateQuery = new JSONObject();
+			stateQuery.put("physical_address.state_province", state);
+			addTableField(json, stateQuery);
+		}
+
+		if (!StringUtils.isEmpty(postalCode)) {
+			JSONObject postalCodeQuery = new JSONObject();
+			postalCodeQuery.put("physical_address.postal_code", postalCode);
+			addTableField(json, postalCodeQuery);
+		}
+
+		if (!StringUtils.isEmpty(category)) {
+
+			JSONObject categoryTypeQuery = new JSONObject();
+			categoryTypeQuery.put("service_taxonomy.category", category);
+			addTableField(json, categoryTypeQuery);
+		}
+
+		if (!StringUtils.isEmpty(communication)) {
+			json.put("language", communication);
 		}
 
 		String hsds = this.hsdsClient.executeQuery("organizations", json);

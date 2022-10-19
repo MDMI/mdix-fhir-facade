@@ -113,11 +113,9 @@ public class HSDSHealthcareServiceResourceProvider extends MDMIProvider implemen
 
 		JSONObject json = new JSONObject();
 		if (!StringUtils.isEmpty(state)) {
-			JSONArray array = new JSONArray();
 			JSONObject stateQuery = new JSONObject();
 			stateQuery.put("physical_address.state_province", state);
-			array.put(stateQuery);
-			json.put("$table.field", array);
+			addTableField(json, stateQuery);
 		}
 
 		if (!StringUtils.isEmpty(postalCode)) {
@@ -154,6 +152,12 @@ public class HSDSHealthcareServiceResourceProvider extends MDMIProvider implemen
 			JSONObject accessibilityTypeQuery = new JSONObject();
 			accessibilityTypeQuery.put("location.accessibility_for_disabilities", accessibility);
 			addTableField(json, accessibilityTypeQuery);
+		}
+
+		if (!StringUtils.isEmpty(availableTime_daysOfWeek)) {
+			JSONObject availableTimeDaysOfWeekQuery = new JSONObject();
+			availableTimeDaysOfWeekQuery.put("regular_schedule.service_hours", availableTime_daysOfWeek);
+			addTableField(json, availableTimeDaysOfWeekQuery);
 		}
 
 		String hsds = this.hsdsClient.executeQuery("services", json);

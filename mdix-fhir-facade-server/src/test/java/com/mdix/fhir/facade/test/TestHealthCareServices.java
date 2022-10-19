@@ -14,7 +14,6 @@ import java.util.Map;
 import org.hl7.fhir.r4.model.Bundle;
 import org.hl7.fhir.r4.model.HealthcareService;
 import org.hl7.fhir.r4.model.Location;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -317,6 +316,34 @@ class TestHealthCareServices {
 	}
 
 	/*
+	 * {"$table.field": [{"regular_schedule.site_hours": "Mon-Fri 8am-4pm"}]}
+	 */
+	@Test
+	void testSearchHealthCareServicesByAvailableTimeDaysOfWeek() throws DataFormatException, IOException {
+		// Create a context and a client
+		FhirContext ctx = FhirContext.forR4();
+		IParser parser = ctx.newJsonParser();
+		ctx.getRestfulClientFactory().setSocketTimeout(200 * 1000);
+		// There might be a better way to get the current url
+		String serverBase = template.getRootUri() + "/fhir/";
+
+		IGenericClient client = ctx.newRestfulGenericClient(serverBase);
+
+		// We'll populate this list
+
+		Map<String, List<String>> query = new HashMap<String, List<String>>();
+		query.put("availableTime.daysOfWeek", new ArrayList<String>());
+		query.get("availableTime.daysOfWeek").add("By appointment (sp)");
+		Bundle bundle = client.search().forResource(HealthcareService.class).whereMap(query).returnBundle(
+			Bundle.class).execute();
+		serializeResult(
+			"testSearchHealthCareServicesByAccessibility", parser.setPrettyPrint(true).encodeResourceToString(bundle));
+
+		assertFalse("testSearchHealthCareServicesByAccessibility", bundle.getEntry().isEmpty());
+
+	}
+
+	/*
 	 * * Test 01 (HCS_TC01)
 	 * Query - Search for FHIR HealthCareServices with matching zipcode and service type 
 	 *
@@ -342,8 +369,7 @@ class TestHealthCareServices {
 		query.get(HealthcareService.SP_SERVICE_TYPE).add("Child Abuse Prevention");
 		Bundle bundle = client.search().forResource(HealthcareService.class).whereMap(query).returnBundle(
 			Bundle.class).execute();
-		serializeResult(
-			"testSearchHealthCareServicesByZip", parser.setPrettyPrint(true).encodeResourceToString(bundle));
+		serializeResult("testHCS_TC01", parser.setPrettyPrint(true).encodeResourceToString(bundle));
 		assertFalse("testHCS_TC01", bundle.getEntry().isEmpty());
 
 	}
@@ -374,8 +400,7 @@ class TestHealthCareServices {
 
 		Bundle bundle = client.search().forResource(HealthcareService.class).whereMap(query).returnBundle(
 			Bundle.class).execute();
-		serializeResult(
-			"testSearchHealthCareServicesByZip", parser.setPrettyPrint(true).encodeResourceToString(bundle));
+		serializeResult("testHCS_TC02", parser.setPrettyPrint(true).encodeResourceToString(bundle));
 		assertFalse("testHCS_TC02", bundle.getEntry().isEmpty());
 
 	}
@@ -409,7 +434,7 @@ class TestHealthCareServices {
 		Bundle bundle = client.search().forResource(HealthcareService.class).whereMap(query).returnBundle(
 			Bundle.class).execute();
 		serializeResult("testHCS_TC03", parser.setPrettyPrint(true).encodeResourceToString(bundle));
-		assertFalse("testSearchHealthCareServicesByState", bundle.getEntry().isEmpty());
+		assertFalse("testHCS_TC03", bundle.getEntry().isEmpty());
 
 	}
 
@@ -418,7 +443,6 @@ class TestHealthCareServices {
 	 * Test 04 (HCS_TC04)
 	 * Query - Search for FHIR HealthCareServices with matching state code, service type and available time
 	 */
-	@Disabled("Disabled until available time query is available!")
 	@Test
 	void testHCS_TC04() throws DataFormatException, IOException {
 		// Create a context and a client
@@ -437,11 +461,12 @@ class TestHealthCareServices {
 		query.get(Location.SP_ADDRESS_STATE).add("MI");
 		query.put(HealthcareService.SP_SERVICE_TYPE, new ArrayList<String>());
 		query.get(HealthcareService.SP_SERVICE_TYPE).add("Child Abuse Prevention");
+		query.put("availableTime.daysOfWeek", new ArrayList<String>());
+		query.get("availableTime.daysOfWeek").add("Mon and Wed 8:30am-8pm; Tue and Thu 8:30am-5pm; Fri 8:30am-4pm");
 
 		Bundle bundle = client.search().forResource(HealthcareService.class).whereMap(query).returnBundle(
 			Bundle.class).execute();
-		serializeResult(
-			"testSearchHealthCareServicesByState", parser.setPrettyPrint(true).encodeResourceToString(bundle));
+		serializeResult("testHCS_TC04", parser.setPrettyPrint(true).encodeResourceToString(bundle));
 		assertFalse("testHCS_TC04", bundle.getEntry().isEmpty());
 
 	}
@@ -484,8 +509,7 @@ class TestHealthCareServices {
 		query.get(Location.SP_ADDRESS_POSTALCODE).add("49085");
 		Bundle bundle = client.search().forResource(HealthcareService.class).whereMap(query).returnBundle(
 			Bundle.class).execute();
-		serializeResult(
-			"testSearchHealthCareServicesByZip", parser.setPrettyPrint(true).encodeResourceToString(bundle));
+		serializeResult("testHCS_TC05", parser.setPrettyPrint(true).encodeResourceToString(bundle));
 		assertFalse("testHCS_TC05", bundle.getEntry().isEmpty());
 
 	}

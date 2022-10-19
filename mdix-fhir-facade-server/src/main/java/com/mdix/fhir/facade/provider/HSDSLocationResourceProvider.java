@@ -104,12 +104,15 @@ public class HSDSLocationResourceProvider extends MDMIProvider implements IResou
 		return locations.get(0);
 	}
 
+	/*
+	 * {"$table.field": [{"regular_schedule.site_hours": "Mon-Fri 8am-4pm"}]}
+	 */
 	@Search()
 	public List<Location> searchLocation(@OptionalParam(name = Location.SP_ADDRESS_POSTALCODE) String postalCode,
 			@OptionalParam(name = Location.SP_NAME) String name,
 			@OptionalParam(name = "hoursofoperation") String hoursofoperation,
 			@OptionalParam(name = Location.SP_ADDRESS_STATE) String state,
-			@OptionalParam(name = "language") String language) throws Exception {
+			@OptionalParam(name = "language") String languagek) throws Exception {
 
 		JSONObject json = new JSONObject();
 
@@ -131,6 +134,13 @@ public class HSDSLocationResourceProvider extends MDMIProvider implements IResou
 			JSONObject postalCodeQuery = new JSONObject();
 			postalCodeQuery.put("physical_address.postal_code", postalCode);
 			addTableField(json, postalCodeQuery);
+		}
+
+		if (!StringUtils.isEmpty(hoursofoperation)) {
+
+			JSONObject hoursOfOperationQuery = new JSONObject();
+			hoursOfOperationQuery.put("regular_schedule.site_hours", hoursofoperation);
+			addTableField(json, hoursOfOperationQuery);
 		}
 
 		String hsds = this.hsdsClient.executeQuery("locations", json);

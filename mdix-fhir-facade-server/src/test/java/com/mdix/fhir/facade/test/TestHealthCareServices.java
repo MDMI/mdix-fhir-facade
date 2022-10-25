@@ -228,8 +228,8 @@ class TestHealthCareServices {
 
 		IGenericClient client = ctx.newRestfulGenericClient(serverBase);
 		Map<String, List<String>> query = new HashMap<String, List<String>>();
-		query.put("communication", new ArrayList<String>());
-		query.get("communication").add("English");
+		query.put("language", new ArrayList<String>());
+		query.get("language").add("English");
 		Bundle bundle = client.search().forResource(HealthcareService.class).whereMap(query).returnBundle(
 			Bundle.class).execute();
 		serializeResult(
@@ -367,6 +367,8 @@ class TestHealthCareServices {
 		query.get(Location.SP_ADDRESS_POSTALCODE).add("49085");
 		query.put(HealthcareService.SP_SERVICE_TYPE, new ArrayList<String>());
 		query.get(HealthcareService.SP_SERVICE_TYPE).add("Child Abuse Prevention");
+		query.put("_include", new ArrayList<String>());
+		query.get("_include").add("*");
 		Bundle bundle = client.search().forResource(HealthcareService.class).whereMap(query).returnBundle(
 			Bundle.class).execute();
 		serializeResult("testHCS_TC01", parser.setPrettyPrint(true).encodeResourceToString(bundle));
@@ -397,7 +399,8 @@ class TestHealthCareServices {
 		query.get(Location.SP_ADDRESS_POSTALCODE).add("49085");
 		query.put(HealthcareService.SP_SERVICE_CATEGORY, new ArrayList<String>());
 		query.get(HealthcareService.SP_SERVICE_CATEGORY).add("Child/Adolescent");
-
+		query.put("_include", new ArrayList<String>());
+		query.get("_include").add("*");
 		Bundle bundle = client.search().forResource(HealthcareService.class).whereMap(query).returnBundle(
 			Bundle.class).execute();
 		serializeResult("testHCS_TC02", parser.setPrettyPrint(true).encodeResourceToString(bundle));
@@ -426,10 +429,10 @@ class TestHealthCareServices {
 		Map<String, List<String>> query = new HashMap<String, List<String>>();
 		query.put(Location.SP_ADDRESS_STATE, new ArrayList<String>());
 		query.get(Location.SP_ADDRESS_STATE).add("MI");
-		// query.put("communication", new ArrayList<String>());
-		// query.get("communication").add("English");
-		query.put(HealthcareService.SP_SERVICE_TYPE, new ArrayList<String>());
-		query.get(HealthcareService.SP_SERVICE_TYPE).add("Mental Health Related Support Groups");
+		query.put("language", new ArrayList<String>());
+		query.get("language").add("English");
+		query.put(HealthcareService.SP_SERVICE_CATEGORY, new ArrayList<String>());
+		query.get(HealthcareService.SP_SERVICE_CATEGORY).add("Child/Adolescent");
 
 		Bundle bundle = client.search().forResource(HealthcareService.class).whereMap(query).returnBundle(
 			Bundle.class).execute();
@@ -460,9 +463,9 @@ class TestHealthCareServices {
 		query.put(Location.SP_ADDRESS_STATE, new ArrayList<String>());
 		query.get(Location.SP_ADDRESS_STATE).add("MI");
 		query.put(HealthcareService.SP_SERVICE_TYPE, new ArrayList<String>());
-		query.get(HealthcareService.SP_SERVICE_TYPE).add("Child Abuse Prevention");
-		query.put("availableTime.daysOfWeek", new ArrayList<String>());
-		query.get("availableTime.daysOfWeek").add("Mon and Wed 8:30am-8pm; Tue and Thu 8:30am-5pm; Fri 8:30am-4pm");
+		query.get(HealthcareService.SP_SERVICE_TYPE).add("Palliative Care");
+		query.put("availableTime", new ArrayList<String>());
+		query.get("availableTime").add("Mon-Fri 8am-5pm");
 
 		Bundle bundle = client.search().forResource(HealthcareService.class).whereMap(query).returnBundle(
 			Bundle.class).execute();
@@ -506,7 +509,11 @@ class TestHealthCareServices {
 
 		Map<String, List<String>> query = new HashMap<String, List<String>>();
 		query.put(Location.SP_ADDRESS_POSTALCODE, new ArrayList<String>());
-		query.get(Location.SP_ADDRESS_POSTALCODE).add("49085");
+		query.get(Location.SP_ADDRESS_POSTALCODE).add("49511");
+		query.put(HealthcareService.SP_SERVICE_CATEGORY, new ArrayList<String>());
+		query.get(HealthcareService.SP_SERVICE_CATEGORY).add("Child Care");
+		query.put("accessibility", new ArrayList<String>());
+		query.get("accessibility").add("Accessible Parking");
 		Bundle bundle = client.search().forResource(HealthcareService.class).whereMap(query).returnBundle(
 			Bundle.class).execute();
 		serializeResult("testHCS_TC05", parser.setPrettyPrint(true).encodeResourceToString(bundle));

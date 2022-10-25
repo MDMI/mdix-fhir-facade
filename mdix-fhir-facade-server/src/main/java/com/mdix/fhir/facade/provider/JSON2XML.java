@@ -74,7 +74,7 @@ public class JSON2XML implements IPreProcessor {
 		JSONObject json = new JSONObject(
 			"{\"row\":" + mdmiMessage.getDataAsString().replace("null", "\"\"").replace("N/A", "NA") + "}");
 		// String tagmessage = walkFields(json);
-		System.err.println("<root>" + XML.toString(json) + "</root>");
+		// System.err.println("<root>" + XML.toString(json) + "</root>");
 		mdmiMessage.setData("<root>" + XML.toString(json) + "</root>");
 
 	}

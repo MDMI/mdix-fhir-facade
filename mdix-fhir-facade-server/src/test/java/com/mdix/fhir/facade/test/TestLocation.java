@@ -174,7 +174,7 @@ class TestLocation {
 		query.put(Location.SP_ADDRESS_POSTALCODE, new ArrayList<String>());
 		query.get(Location.SP_ADDRESS_POSTALCODE).add("49085");
 		query.put("name", new ArrayList<String>());
-		query.get("name").add("CHILDREN");
+		query.get("name").add("CENTER");
 		Bundle bundle = client.search().forResource(Location.class).whereMap(query).returnBundle(
 			Bundle.class).execute();
 		serializeResult("testLOC_TC01", parser.setPrettyPrint(true).encodeResourceToString(bundle));
@@ -202,9 +202,9 @@ class TestLocation {
 
 		Map<String, List<String>> query = new HashMap<String, List<String>>();
 		query.put(Location.SP_ADDRESS_POSTALCODE, new ArrayList<String>());
-		query.get(Location.SP_ADDRESS_POSTALCODE).add("49085");
+		query.get(Location.SP_ADDRESS_POSTALCODE).add("49038");
 		query.put("hoursofoperation", new ArrayList<String>());
-		query.get("hoursofoperation").add("By appointment (sp)");
+		query.get("hoursofoperation").add("Mon-Fri 8am-4pm");
 
 		Bundle bundle = client.search().forResource(Location.class).whereMap(query).returnBundle(
 			Bundle.class).execute();

@@ -10,6 +10,7 @@ import javax.servlet.ServletContext;
 
 import org.apache.commons.lang3.StringUtils;
 import org.hl7.fhir.r4.model.Bundle;
+import org.hl7.fhir.r4.model.Bundle.BundleEntryComponent;
 import org.hl7.fhir.r4.model.IdType;
 import org.hl7.fhir.r4.model.Location;
 import org.json.JSONArray;
@@ -82,6 +83,25 @@ public class HSDSLocationResourceProvider extends MDMIProvider implements IResou
 		return Location.class;
 	}
 
+	private Bundle removeResources(Bundle bundle, String name) {
+		ArrayList<BundleEntryComponent> removelist = new ArrayList<>();
+		for (BundleEntryComponent bundleEntry : bundle.getEntry()) {
+
+			if (bundleEntry.getResource().isEmpty()) {
+				removelist.add(bundleEntry);
+			}
+
+			if (bundleEntry.getResource().fhirType().equals("Location")) {
+				Location location = (Location) bundleEntry.getResource();
+				if (!location.getName().contains(name)) {
+					removelist.add(bundleEntry);
+				}
+			}
+		}
+		bundle.getEntry().removeAll(removelist);
+		return bundle;
+	}
+
 	/**
 	 * The "@Read" annotation indicates that this method supports the read operation. It takes one argument, the Resource type being returned.
 	 *
@@ -115,7 +135,7 @@ public class HSDSLocationResourceProvider extends MDMIProvider implements IResou
 			@OptionalParam(name = "language") String languagek) throws Exception {
 
 		JSONObject json = new JSONObject();
-
+		Boolean flag = false;
 		if (!StringUtils.isEmpty(name)) {
 			JSONObject nameQuery = new JSONObject();
 			nameQuery.put("$like", name);
@@ -143,12 +163,25 @@ public class HSDSLocationResourceProvider extends MDMIProvider implements IResou
 			addTableField(json, hoursOfOperationQuery);
 		}
 
+		if (!StringUtils.isEmpty(languagek)) {
+			JSONObject communicationQuery = new JSONObject();
+			communicationQuery.put("service_view.language", languagek);
+			addTableField(json, communicationQuery);
+		}
+
+		if (json.has("$table.field") && json.has("name")) {
+			json.remove("name");
+			flag = true;
+		}
+
 		String hsds = this.hsdsClient.executeQuery("locations", json);
 		String result = runTransformation("HSDSJSON.LocationComplete", hsds, "FHIRR4JSON.MasterBundle");
 		FhirContext ctx = FhirContext.forR4();
 		IParser parser = ctx.newJsonParser();
 		Bundle bundle = parser.parseResource(Bundle.class, result);
-
+		if (flag) {
+			bundle = removeResources(bundle, name);
+		}
 		List<Location> retVal = new ArrayList<>();
 		retVal.addAll(BundleUtil.toListOfResourcesOfType(ctx, bundle, Location.class));
 

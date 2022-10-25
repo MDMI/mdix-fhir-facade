@@ -13,7 +13,6 @@ import java.util.Map;
 
 import org.hl7.fhir.instance.model.api.IBaseResource;
 import org.hl7.fhir.r4.model.Bundle;
-import org.hl7.fhir.r4.model.HealthcareService;
 import org.hl7.fhir.r4.model.Location;
 import org.hl7.fhir.r4.model.Organization;
 import org.junit.jupiter.api.Test;
@@ -177,7 +176,7 @@ class TestOrganization {
 		query.put(Location.SP_ADDRESS_POSTALCODE, new ArrayList<String>());
 		query.get(Location.SP_ADDRESS_POSTALCODE).add("49085");
 		query.put("name", new ArrayList<String>());
-		query.get("name").add("CHILDREN");
+		query.get("name").add("SERVICE");
 		Bundle bundle = client.search().forResource(Organization.class).whereMap(query).returnBundle(
 			Bundle.class).execute();
 		serializeResult("testORG_TC01", parser.setPrettyPrint(true).encodeResourceToString(bundle));
@@ -206,8 +205,8 @@ class TestOrganization {
 		Map<String, List<String>> query = new HashMap<String, List<String>>();
 		query.put(Location.SP_ADDRESS_POSTALCODE, new ArrayList<String>());
 		query.get(Location.SP_ADDRESS_POSTALCODE).add("49085");
-		query.put(HealthcareService.SP_SERVICE_CATEGORY, new ArrayList<String>());
-		query.get(HealthcareService.SP_SERVICE_CATEGORY).add("Child/Adolescent");
+		query.put("program", new ArrayList<String>());
+		query.get("program").add("CHILDREN'S ADVOCACY CENTER");
 
 		Bundle bundle = client.search().forResource(Organization.class).whereMap(query).returnBundle(
 			Bundle.class).execute();
@@ -237,8 +236,8 @@ class TestOrganization {
 		Map<String, List<String>> query = new HashMap<String, List<String>>();
 		query.put(Location.SP_ADDRESS_STATE, new ArrayList<String>());
 		query.get(Location.SP_ADDRESS_STATE).add("MI");
-		query.put("communication", new ArrayList<String>());
-		query.get("communication").add("English");
+		query.put("language", new ArrayList<String>());
+		query.get("language").add("English");
 
 		Bundle bundle = client.search().forResource(Organization.class).whereMap(query).returnBundle(
 			Bundle.class).execute();

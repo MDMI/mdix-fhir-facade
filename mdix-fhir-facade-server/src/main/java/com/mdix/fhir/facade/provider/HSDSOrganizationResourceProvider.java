@@ -11,7 +11,6 @@ import javax.servlet.ServletContext;
 import org.apache.commons.lang3.StringUtils;
 import org.hl7.fhir.r4.model.Bundle;
 import org.hl7.fhir.r4.model.Bundle.BundleEntryComponent;
-import org.hl7.fhir.r4.model.HealthcareService;
 import org.hl7.fhir.r4.model.IdType;
 import org.hl7.fhir.r4.model.Organization;
 import org.json.JSONArray;
@@ -107,6 +106,24 @@ public class HSDSOrganizationResourceProvider extends MDMIProvider implements IR
 
 	}
 
+	private Bundle removeResources(Bundle bundle, String name) {
+		ArrayList<BundleEntryComponent> removelist = new ArrayList<>();
+		for (BundleEntryComponent bundleEntry : bundle.getEntry()) {
+
+			if (bundleEntry.getResource().isEmpty()) {
+				removelist.add(bundleEntry);
+			}
+
+			if (bundleEntry.getResource().fhirType().equals("Organization")) {
+				Organization organization = (Organization) bundleEntry.getResource();
+				if (!organization.getName().contains(name)) {
+					removelist.add(bundleEntry);
+				}
+			}
+		}
+		bundle.getEntry().removeAll(removelist);
+		return bundle;
+	}
 	/*
 	 * Organization
 	 * {"$table.field": [{"physical_address.postal_code": "49085"}]} - Results Returned, be sure that the table.field has quotes around it.
@@ -123,10 +140,11 @@ public class HSDSOrganizationResourceProvider extends MDMIProvider implements IR
 	public List<Organization> searchOrganization(@OptionalParam(name = Organization.SP_NAME) String name,
 			@OptionalParam(name = Organization.SP_ADDRESS_POSTALCODE) String postalCode,
 			@OptionalParam(name = Organization.SP_ADDRESS_STATE) String state,
-			@OptionalParam(name = HealthcareService.SP_SERVICE_CATEGORY) String category,
-			@OptionalParam(name = "communication") String communication) throws Exception {
+			@OptionalParam(name = "program") String program, @OptionalParam(name = "language") String languagek)
+			throws Exception {
 
 		JSONObject json = new JSONObject();
+		Boolean flag = false;
 		if (!StringUtils.isEmpty(name)) {
 			json = new JSONObject();
 			JSONObject nameQuery = new JSONObject();
@@ -146,15 +164,22 @@ public class HSDSOrganizationResourceProvider extends MDMIProvider implements IR
 			addTableField(json, postalCodeQuery);
 		}
 
-		if (!StringUtils.isEmpty(category)) {
+		if (!StringUtils.isEmpty(program)) {
 
 			JSONObject categoryTypeQuery = new JSONObject();
-			categoryTypeQuery.put("service_taxonomy.category", category);
+			categoryTypeQuery.put("program.name", program);
 			addTableField(json, categoryTypeQuery);
 		}
 
-		if (!StringUtils.isEmpty(communication)) {
-			json.put("language", communication);
+		if (!StringUtils.isEmpty(languagek)) {
+			JSONObject communicationQuery = new JSONObject();
+			communicationQuery.put("service_view.language", languagek);
+			addTableField(json, communicationQuery);
+		}
+
+		if (json.has("$table.field") && json.has("name")) {
+			json.remove("name");
+			flag = true;
 		}
 
 		String hsds = this.hsdsClient.executeQuery("organizations", json);
@@ -162,7 +187,10 @@ public class HSDSOrganizationResourceProvider extends MDMIProvider implements IR
 		FhirContext ctx = FhirContext.forR4();
 		IParser parser = ctx.newJsonParser();
 		Bundle bundle = parser.parseResource(Bundle.class, result);
-		List<BundleEntryComponent> entries = bundle.getEntry();
+		if (flag) {
+			bundle = removeResources(bundle, name);
+		}
+		// List<BundleEntryComponent> entries = bundle.getEntry();
 		List<Organization> retVal = new ArrayList<>();
 		retVal.addAll(BundleUtil.toListOfResourcesOfType(ctx, bundle, Organization.class));
 		return retVal;

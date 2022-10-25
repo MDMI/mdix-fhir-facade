@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="ASCII"?>
 <xmi:XMI xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:mdmi="http://schema.omg.org/spec/MDMI/1.0">
   <mdmi:MessageGroup xmi:id="_baHH4EXwEe2839Weg2ZokQ" name="HSDSJSON" description="SKIPCONTAINMENT" defaultLocationExprLang="XPath" defaultConstraintExprLang="JavaScript" defaultRuleExprLang="JavaScript">
-    <models xmi:id="_baHu8EXwEe2839Weg2ZokQ" messageModelName="OrganizationComplete" description="2022-10-12 09:58:11.709">
+    <models xmi:id="_baHu8EXwEe2839Weg2ZokQ" messageModelName="OrganizationComplete" description="2022-10-13 11:09:39.735">
       <syntaxModel xmi:id="_baHu8UXwEe2839Weg2ZokQ">
         <root xsi:type="mdmi:Bag" xmi:id="_baHu8kXwEe2839Weg2ZokQ" name="root" minOccurs="1" maxOccurs="1" location="root" semanticElement="_baHvWEXwEe2839Weg2ZokQ">
           <nodes xsi:type="mdmi:Bag" xmi:id="_baHu80XwEe2839Weg2ZokQ" name="row" maxOccurs="1" location="row" semanticElement="_baHvWUXwEe2839Weg2ZokQ">
@@ -256,7 +256,6 @@
           <relationships xmi:id="_OLOZ1UXyEe2839Weg2ZokQ" name="address_4" rule="value.getXValue().addValue('streetAddressLine', '&lt;&lt;LOCALSEMANTICVALUE>>>' );" context="_OLOZ0EXyEe2839Weg2ZokQ" relatedSemanticElement="_baHvn0XwEe2839Weg2ZokQ"/>
           <relationships xmi:id="_OLOZ1kXyEe2839Weg2ZokQ" name="city" rule="value.getXValue().addValue('city', '&lt;&lt;LOCALSEMANTICVALUE>>>' );" context="_OLOZ0EXyEe2839Weg2ZokQ" relatedSemanticElement="_baHvoEXwEe2839Weg2ZokQ"/>
           <relationships xmi:id="_OLOZ10XyEe2839Weg2ZokQ" name="county" rule="value.getXValue().addValue('county', '&lt;&lt;LOCALSEMANTICVALUE>>>' );" context="_OLOZ0EXyEe2839Weg2ZokQ" relatedSemanticElement="_baHvoUXwEe2839Weg2ZokQ"/>
-          <relationships xmi:id="_OLOZ2EXyEe2839Weg2ZokQ" name="region" rule="" context="_OLOZ0EXyEe2839Weg2ZokQ" relatedSemanticElement="_baHvokXwEe2839Weg2ZokQ"/>
           <relationships xmi:id="_OLOZ2UXyEe2839Weg2ZokQ" name="state_province" rule="value.getXValue().addValue('state', '&lt;&lt;LOCALSEMANTICVALUE>>>' );" context="_OLOZ0EXyEe2839Weg2ZokQ" relatedSemanticElement="_baHvo0XwEe2839Weg2ZokQ"/>
           <relationships xmi:id="_OLPA4EXyEe2839Weg2ZokQ" name="postal_code" rule="value.getXValue().addValue('postalCode', '&lt;&lt;LOCALSEMANTICVALUE>>>' );" context="_OLOZ0EXyEe2839Weg2ZokQ" relatedSemanticElement="_baHvpEXwEe2839Weg2ZokQ"/>
           <relationships xmi:id="_OLPA4UXyEe2839Weg2ZokQ" name="country" rule="value.getXValue().addValue('country', '&lt;&lt;LOCALSEMANTICVALUE>>>' );" context="_OLOZ0EXyEe2839Weg2ZokQ" relatedSemanticElement="_baHvpUXwEe2839Weg2ZokQ"/>
@@ -5494,6 +5493,7 @@
       <fields xmi:id="_oI-naUXwEe2839Weg2ZokQ" name="PeriodStart" minOccurs="1" maxOccurs="1" datatype="_baHvv0XwEe2839Weg2ZokQ"/>
       <fields xmi:id="_oI-nakXwEe2839Weg2ZokQ" name="postalCode" minOccurs="1" maxOccurs="1" datatype="_baHvwkXwEe2839Weg2ZokQ"/>
       <fields xmi:id="_oI-na0XwEe2839Weg2ZokQ" name="state" minOccurs="1" maxOccurs="1" datatype="_baHvwkXwEe2839Weg2ZokQ"/>
+      <fields xmi:id="_oI-na0XwEe2839Weg2ZokQ" name="type" minOccurs="1" maxOccurs="1" datatype="_baHvwkXwEe2839Weg2ZokQ"/>
       <fields xmi:id="_oI-nbEXwEe2839Weg2ZokQ" name="streetAddressLine" minOccurs="1" maxOccurs="2" datatype="_baHvwkXwEe2839Weg2ZokQ"/>
       <fields xmi:id="_oI-nbUXwEe2839Weg2ZokQ" name="use" minOccurs="1" maxOccurs="1" datatype="_baHvwkXwEe2839Weg2ZokQ" description="A qualifier on the Address datatype. For example, the use could be set to HOME or the use could be set to WORK."/>
     </datatypes>

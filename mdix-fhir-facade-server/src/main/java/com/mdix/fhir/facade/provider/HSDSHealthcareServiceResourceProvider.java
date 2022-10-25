@@ -79,7 +79,7 @@ public class HSDSHealthcareServiceResourceProvider extends MDMIProvider implemen
 
 			if (bundleEntry.getResource().fhirType().equals("HealthcareService")) {
 				HealthcareService hs = (HealthcareService) bundleEntry.getResource();
-				if (!hs.getName().contains(name)) {
+				if (!StringUtils.containsIgnoreCase(hs.getName(), name)) {
 					removelist.add(bundleEntry);
 				}
 			}
@@ -104,7 +104,7 @@ public class HSDSHealthcareServiceResourceProvider extends MDMIProvider implemen
 				} else {
 					for (CodeableConcept cc : hs.getCommunication()) {
 						for (Coding c : cc.getCoding()) {
-							if (c.getCode().contains(language)) {
+							if (StringUtils.containsIgnoreCase(c.getCode(), language)) {
 								check = true;
 							}
 						}
@@ -143,11 +143,11 @@ public class HSDSHealthcareServiceResourceProvider extends MDMIProvider implemen
 	}
 
 	private void addTableField(JSONObject json, JSONObject query) {
-		if (!json.has("$table.field")) {
+		if (!json.has("$table.field:like")) {
 			JSONArray array = new JSONArray();
-			json.put("$table.field", array);
+			json.put("$table.field:like", array);
 		}
-		JSONArray array = (JSONArray) json.get("$table.field");
+		JSONArray array = (JSONArray) json.get("$table.field:like");
 		array.put(query);
 
 	}
@@ -200,7 +200,9 @@ public class HSDSHealthcareServiceResourceProvider extends MDMIProvider implemen
 		}
 
 		if (!StringUtils.isEmpty(language)) {
-			json.put("language", language);
+			JSONObject languageQuery = new JSONObject();
+			languageQuery.put("$like", language);
+			json.put("language", languageQuery);
 		}
 
 		if (!StringUtils.isEmpty(accessibility)) {
@@ -215,7 +217,7 @@ public class HSDSHealthcareServiceResourceProvider extends MDMIProvider implemen
 			addTableField(json, availableTimeDaysOfWeekQuery);
 		}
 
-		if (json.has("$table.field")) {
+		if (json.has("$table.field:like")) {
 			if (json.has("name")) {
 				json.remove("name");
 				nameFlag = true;
@@ -258,15 +260,14 @@ public class HSDSHealthcareServiceResourceProvider extends MDMIProvider implemen
 				}
 
 				for (String reference : references) {
-					if ((_include.equals("*") || _include.equals("organization")) &&
-							reference.startsWith("Organization")) {
+					if ((_include.equals("*") || _include.contains("org")) && reference.startsWith("Organization")) {
 						String organizationResult = runTransformation(
 							"HSDSJSON.OrganizationComplete", this.hsdsClient.executeGet(reference),
 							"FHIRR4JSON.MasterBundle");
 						Bundle organizationBundle = parser.parseResource(Bundle.class, organizationResult);
 						retVal.addAll(BundleUtil.toListOfResourcesOfType(ctx, organizationBundle, Organization.class));
 					}
-					if ((_include.equals("*") || _include.equals("location")) && reference.contains("Location")) {
+					if ((_include.equals("*") || _include.contains("loc")) && reference.contains("Location")) {
 						String locationResult = runTransformation(
 							"HSDSJSON.LocationComplete", this.hsdsClient.executeGet(reference),
 							"FHIRR4JSON.MasterBundle");

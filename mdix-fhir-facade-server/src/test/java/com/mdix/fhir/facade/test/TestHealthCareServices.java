@@ -366,7 +366,7 @@ class TestHealthCareServices {
 		query.put(Location.SP_ADDRESS_POSTALCODE, new ArrayList<String>());
 		query.get(Location.SP_ADDRESS_POSTALCODE).add("49085");
 		query.put(HealthcareService.SP_SERVICE_TYPE, new ArrayList<String>());
-		query.get(HealthcareService.SP_SERVICE_TYPE).add("Child Abuse Prevention");
+		query.get(HealthcareService.SP_SERVICE_TYPE).add("Child");
 		query.put("_include", new ArrayList<String>());
 		query.get("_include").add("*");
 		Bundle bundle = client.search().forResource(HealthcareService.class).whereMap(query).returnBundle(
@@ -398,7 +398,7 @@ class TestHealthCareServices {
 		query.put(Location.SP_ADDRESS_POSTALCODE, new ArrayList<String>());
 		query.get(Location.SP_ADDRESS_POSTALCODE).add("49085");
 		query.put(HealthcareService.SP_SERVICE_CATEGORY, new ArrayList<String>());
-		query.get(HealthcareService.SP_SERVICE_CATEGORY).add("Child/Adolescent");
+		query.get(HealthcareService.SP_SERVICE_CATEGORY).add("Child");
 		query.put("_include", new ArrayList<String>());
 		query.get("_include").add("*");
 		Bundle bundle = client.search().forResource(HealthcareService.class).whereMap(query).returnBundle(

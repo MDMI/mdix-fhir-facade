@@ -44,11 +44,11 @@ public class HSDSLocationResourceProvider extends MDMIProvider implements IResou
 	HsdsClient hsdsClient;
 
 	private void addTableField(JSONObject json, JSONObject query) {
-		if (!json.has("$table.field")) {
+		if (!json.has("$table.field:like")) {
 			JSONArray array = new JSONArray();
-			json.put("$table.field", array);
+			json.put("$table.field:like", array);
 		}
-		JSONArray array = (JSONArray) json.get("$table.field");
+		JSONArray array = (JSONArray) json.get("$table.field:like");
 		array.put(query);
 
 	}
@@ -93,7 +93,7 @@ public class HSDSLocationResourceProvider extends MDMIProvider implements IResou
 
 			if (bundleEntry.getResource().fhirType().equals("Location")) {
 				Location location = (Location) bundleEntry.getResource();
-				if (!location.getName().contains(name)) {
+				if (!StringUtils.containsIgnoreCase(location.getName(), name)) {
 					removelist.add(bundleEntry);
 				}
 			}
@@ -169,7 +169,7 @@ public class HSDSLocationResourceProvider extends MDMIProvider implements IResou
 			addTableField(json, communicationQuery);
 		}
 
-		if (json.has("$table.field") && json.has("name")) {
+		if (json.has("$table.field:like") && json.has("name")) {
 			json.remove("name");
 			flag = true;
 		}
